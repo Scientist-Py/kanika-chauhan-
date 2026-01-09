@@ -1,0 +1,8 @@
+{
+  "name": "Kanika Chauhan Official",
+  "description": "Premium creator monetization platform for exclusive content, private chats, and fan services with direct checkout.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
