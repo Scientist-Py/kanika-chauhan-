@@ -45,7 +45,7 @@ export const EXCLUSIVES: Product[] = [
 export const SERVICES: Product[] = [
   { id: 's1', title: 'Instagram Video Call (10 min)', price: 470, image: '', category: 'service', description: 'Connect with me on Instagram Video Call for 10 minutes. 📹📸' },
   { id: 's2', title: 'Instagram Video Call (20 min)', price: 560, image: '', category: 'service', description: 'Longer session. 20 Minutes Instagram Video Call. 📹✨' },
-  { id: 's3', title: 'Telegram Sex Chat (1 Hour)', price: 350, image: '', category: 'service', description: 'Private sex chat on Telegram for 1 hour. Includes 350+ live images. 💬🔞' },
+  { id: 's3', title: 'WhatsApp Private Video Call (15 min)', price: 590, image: '', category: 'service', description: 'Connect with me on WhatsApp for a private 1-on-1 video call. 15 minutes of pure fun. 📹🫦' },
   { id: 's4', title: 'Custom Request (Full Control)', price: 4600, image: '', category: 'service', description: 'You get my number. Call me, tell me what to wear, and then we connect on video call for 1 Hour. 👙📱' },
   { id: 's5', title: 'Offline Date (Delhi Only)', price: 6799, image: '', category: 'service', description: 'Offline date in Delhi only. Take me to a hotel or restaurant, your choice. Do whatever you want to do with me. 🏨🍽️💋' },
 ];
@@ -60,6 +60,12 @@ export const NEW_COLLECTION: Product[] = [
   { id: 'nc4', title: 'Stripping Black Saree 🥻🔞', price: 799, image: imgStrippingBlackSaree, category: 'content', description: 'Traditional strip tease in a sexy black saree. 🎞️🌹' },
   { id: 'nc5', title: 'Video Call Preview 📹💋', price: 530, image: imgVideoCall, category: 'content', description: 'A teaser of what my private video calls look like. 👀💖' },
   { id: 'nc6', title: 'Custom Time ⏳😈', price: 1499, image: imgLetsHaveDirty, category: 'service', description: 'Keep talking as much as you can. Keep cum how many times you can. Max limit 1 Hour. 🥵👄⛓️' },
+];
+
+export const VIP_SERVICES: Product[] = [
+  { id: 'vs1', title: 'Personal WhatsApp Access', price: 4999, image: 'https://picsum.photos/400/600?random=40', category: 'service', description: 'Get direct access to my personal WhatsApp. Let\'s build a real connection. 📱💖' },
+  { id: 'vs2', title: 'Luxury Dinner Date (Virtual)', price: 2999, image: 'https://picsum.photos/400/600?random=41', category: 'service', description: 'Let\'s have a romantic virtual dinner together. I\'ll dress up just for you. 🥂👗' },
+  { id: 'vs3', title: 'Wake Up Call Service', price: 1500, image: 'https://picsum.photos/400/600?random=42', category: 'service', description: 'Start your morning with my voice. I\'ll call you to wake you up every day for a week. ☀️💋' },
 ];
 
 

@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     const newCollectionRef = useRef<HTMLDivElement>(null);
 
     // Get dynamic data from AdminContext
-    const { mostUnlocked, newCollection, services, exclusives } = useAdmin();
+    const { mostUnlocked, newCollection, services, exclusives, vipServices } = useAdmin();
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -232,6 +232,33 @@ const Home: React.FC = () => {
                                 </div>
                             ))}
                         </div>
+                    </div>
+                </section>
+
+                {/* VIP Services section */}
+                <section id="vip" className="space-y-6 px-6">
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-2xl font-display text-white italic">💎 VIP Services</h2>
+                        <span className="px-3 py-1 bg-amber-500/10 border border-amber-500/20 text-amber-500 text-[10px] font-bold tracking-wider uppercase rounded-full">Premium</span>
+                    </div>
+                    <div className="grid gap-4">
+                        {vipServices.map((item) => (
+                            <div key={item.id} className="relative group overflow-hidden bg-neutral-900 rounded-3xl ring-1 ring-white/10 hover:ring-rose-500/30 transition-all">
+                                <div className="p-6 flex flex-col justify-center gap-1">
+                                    <h3 className="text-white font-bold">{item.title}</h3>
+                                    <p className="text-xs text-neutral-500">{item.description}</p>
+                                    <div className="flex items-center justify-between mt-4">
+                                        <span className="text-rose-400 font-bold text-sm">₹{item.price.toLocaleString()}</span>
+                                        <button
+                                            onClick={() => handlePurchase(item)}
+                                            className="px-6 py-2 bg-white text-black text-xs font-black rounded-xl active:scale-95 transition-transform"
+                                        >
+                                            BOOK NOW
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </section>
 

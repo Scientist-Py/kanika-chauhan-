@@ -1,7 +1,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Product } from '../types';
-import { MOST_UNLOCKED as INITIAL_MOST_UNLOCKED, NEW_COLLECTION as INITIAL_NEW_COLLECTION, SERVICES as INITIAL_SERVICES, EXCLUSIVES as INITIAL_EXCLUSIVES } from '../constants';
+import { MOST_UNLOCKED as INITIAL_MOST_UNLOCKED, NEW_COLLECTION as INITIAL_NEW_COLLECTION, SERVICES as INITIAL_SERVICES, EXCLUSIVES as INITIAL_EXCLUSIVES, VIP_SERVICES as INITIAL_VIP_SERVICES } from '../constants';
 
 type NotificationType = 'info' | 'success' | 'alert' | 'promo';
 
@@ -23,9 +23,10 @@ interface AdminContextType {
     newCollection: Product[];
     services: Product[];
     exclusives: Product[];
+    vipServices: Product[];
 
-    addProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives', product: Product) => void;
-    deleteProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives', id: string) => void;
+    addProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => void;
+    deleteProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', id: string) => void;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -43,6 +44,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const [newCollection, setNewCollection] = useState<Product[]>(INITIAL_NEW_COLLECTION);
     const [services, setServices] = useState<Product[]>(INITIAL_SERVICES);
     const [exclusives, setExclusives] = useState<Product[]>(INITIAL_EXCLUSIVES);
+    const [vipServices, setVipServices] = useState<Product[]>(INITIAL_VIP_SERVICES);
 
     // Load from local storage if available (mock persistence)
     useEffect(() => {
@@ -53,6 +55,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             if (parsed.newCollection) setNewCollection(parsed.newCollection);
             if (parsed.services) setServices(parsed.services);
             if (parsed.exclusives) setExclusives(parsed.exclusives);
+            if (parsed.vipServices) setVipServices(parsed.vipServices);
             if (parsed.notification) setNotification(parsed.notification);
         }
     }, []);
@@ -64,9 +67,10 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             newCollection,
             services,
             exclusives,
+            vipServices,
             notification
         }));
-    }, [mostUnlocked, newCollection, services, exclusives, notification]);
+    }, [mostUnlocked, newCollection, services, exclusives, vipServices, notification]);
 
     const showNotification = (message: string, type: NotificationType = 'info', link?: string, buttonText?: string) => {
         setNotification({
@@ -82,21 +86,23 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setNotification(prev => ({ ...prev, isVisible: false }));
     };
 
-    const addProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives', product: Product) => {
+    const addProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => {
         switch (section) {
             case 'mostUnlocked': setMostUnlocked(prev => [...prev, product]); break;
             case 'newCollection': setNewCollection(prev => [...prev, product]); break;
             case 'services': setServices(prev => [...prev, product]); break;
             case 'exclusives': setExclusives(prev => [...prev, product]); break;
+            case 'vipServices': setVipServices(prev => [...prev, product]); break;
         }
     };
 
-    const deleteProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives', id: string) => {
+    const deleteProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', id: string) => {
         switch (section) {
             case 'mostUnlocked': setMostUnlocked(prev => prev.filter(p => p.id !== id)); break;
             case 'newCollection': setNewCollection(prev => prev.filter(p => p.id !== id)); break;
             case 'services': setServices(prev => prev.filter(p => p.id !== id)); break;
             case 'exclusives': setExclusives(prev => prev.filter(p => p.id !== id)); break;
+            case 'vipServices': setVipServices(prev => prev.filter(p => p.id !== id)); break;
         }
     };
 
@@ -109,6 +115,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             newCollection,
             services,
             exclusives,
+            vipServices,
             addProduct,
             deleteProduct
         }}>

@@ -17,7 +17,7 @@ const Admin: React.FC = () => {
         description: '',
         image: 'https://picsum.photos/400/500',
     });
-    const [section, setSection] = useState<'mostUnlocked' | 'newCollection' | 'services' | 'exclusives'>('newCollection');
+    const [section, setSection] = useState<'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices'>('newCollection');
 
     // Notification Form State
     const [notifMsg, setNotifMsg] = useState(notification.message);
@@ -160,6 +160,7 @@ const Admin: React.FC = () => {
                                 <option value="mostUnlocked">Most Unlocked</option>
                                 <option value="exclusives">Exclusives Gallery</option>
                                 <option value="services">My Services</option>
+                                <option value="vipServices">VIP Services</option>
                             </select>
                         </div>
 
