@@ -61,26 +61,32 @@ const Admin: React.FC = () => {
 
     if (!isAuthenticated) {
         return (
-            <div className="min-h-screen bg-black flex items-center justify-center p-4">
-                <div className="bg-neutral-900 p-8 rounded-3xl w-full max-w-sm ring-1 ring-white/10 space-y-6">
-                    <h1 className="text-2xl font-bold text-white text-center">Admin Login</h1>
+            <div className="min-h-screen bg-[#FFF5F7] flex items-center justify-center p-4">
+                <div className="bg-white p-8 rounded-3xl w-full max-w-sm border border-rose-100 shadow-2xl shadow-rose-200/50 space-y-6">
+                    <h1 className="text-2xl font-black text-neutral-900 text-center tracking-tight">Admin Portal</h1>
                     <form onSubmit={handleLogin} className="space-y-4">
-                        <input
-                            type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
-                            className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
-                        />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
-                        />
-                        <button className="w-full bg-rose-600 text-white font-bold py-3 rounded-xl hover:bg-rose-700">
-                            Login
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-black text-rose-400 uppercase tracking-widest px-1">Username</label>
+                            <input
+                                type="text"
+                                placeholder="Admin"
+                                value={username}
+                                onChange={e => setUsername(e.target.value)}
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
+                            />
+                        </div>
+                        <div className="space-y-1">
+                            <label className="text-[10px] font-black text-rose-400 uppercase tracking-widest px-1">Password</label>
+                            <input
+                                type="password"
+                                placeholder="••••"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
+                            />
+                        </div>
+                        <button className="w-full bg-rose-600 text-white font-black py-4 rounded-xl hover:bg-rose-700 shadow-lg shadow-rose-200 transition-all active:scale-95">
+                            LOGIN NOW
                         </button>
                     </form>
                 </div>
@@ -89,31 +95,31 @@ const Admin: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 pb-24">
+        <div className="min-h-screen bg-[#FFF5F7] text-neutral-900 p-6 pb-24">
             <div className="max-w-4xl mx-auto space-y-12">
-                <header className="flex items-center justify-between border-b border-white/10 pb-6">
-                    <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-                    <button onClick={() => setIsAuthenticated(false)} className="text-sm text-neutral-400 hover:text-white">Logout</button>
+                <header className="flex items-center justify-between border-b border-rose-100 pb-6">
+                    <h1 className="text-3xl font-black tracking-tight text-neutral-900 italic">Admin Dashboard</h1>
+                    <button onClick={() => setIsAuthenticated(false)} className="text-xs font-black text-rose-500 uppercase tracking-widest hover:text-rose-700 bg-rose-50 px-4 py-2 rounded-full border border-rose-100">Logout</button>
                 </header>
 
                 {/* Global Notification Settings */}
-                <section className="space-y-6 bg-neutral-900/50 p-6 rounded-3xl border border-white/5">
-                    <h2 className="text-xl font-bold text-rose-400">🔔 Global Notification</h2>
-                    <form onSubmit={handleUpdateNotification} className="grid md:grid-cols-2 gap-4">
+                <section className="space-y-6 bg-white p-8 rounded-3xl border border-rose-100 shadow-xl shadow-rose-200/20">
+                    <h2 className="text-xl font-black text-rose-500 italic">🔔 Global Notification</h2>
+                    <form onSubmit={handleUpdateNotification} className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Message</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Message</label>
                             <textarea
                                 value={notifMsg}
                                 onChange={e => setNotifMsg(e.target.value)}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none h-24"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-2xl p-4 text-neutral-900 focus:border-rose-500 outline-none h-24 font-medium"
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Type</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Type</label>
                             <select
                                 value={notifType}
                                 onChange={e => setNotifType(e.target.value as any)}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-bold"
                             >
                                 <option value="info">Info</option>
                                 <option value="success">Success</option>
@@ -122,39 +128,39 @@ const Admin: React.FC = () => {
                             </select>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Button Text (Optional)</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Button Text</label>
                             <input
                                 type="text"
                                 value={notifBtn}
                                 onChange={e => setNotifBtn(e.target.value)}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
                             />
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Link URL (Optional)</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Link URL</label>
                             <input
                                 type="text"
                                 value={notifLink}
                                 onChange={e => setNotifLink(e.target.value)}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
                             />
                         </div>
-                        <button className="md:col-span-2 bg-white text-black font-bold py-3 rounded-xl hover:bg-neutral-200">
-                            Update Notification
+                        <button className="md:col-span-2 bg-neutral-900 text-white font-black py-4 rounded-xl hover:bg-black shadow-lg shadow-neutral-300 transition-all active:scale-95">
+                            UPDATE NOTIFICATION
                         </button>
                     </form>
                 </section>
 
                 {/* Add Product */}
-                <section className="space-y-6 bg-neutral-900/50 p-6 rounded-3xl border border-white/5">
-                    <h2 className="text-xl font-bold text-rose-400">➕ Add New Content</h2>
-                    <form onSubmit={handleAddProduct} className="grid md:grid-cols-2 gap-4">
+                <section className="space-y-6 bg-white p-8 rounded-3xl border border-rose-100 shadow-xl shadow-rose-200/20">
+                    <h2 className="text-xl font-black text-rose-500 italic">➕ Add New Content</h2>
+                    <form onSubmit={handleAddProduct} className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Section</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Section</label>
                             <select
                                 value={section}
                                 onChange={e => setSection(e.target.value as any)}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-bold"
                             >
                                 <option value="newCollection">New Arrivals</option>
                                 <option value="mostUnlocked">Most Unlocked</option>
@@ -165,49 +171,48 @@ const Admin: React.FC = () => {
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Title</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Title</label>
                             <input
                                 required
                                 type="text"
                                 value={newProduct.title}
                                 onChange={e => setNewProduct({ ...newProduct, title: e.target.value })}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Price (₹)</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Price (₹)</label>
                             <input
                                 required
                                 type="number"
                                 value={newProduct.price}
                                 onChange={e => setNewProduct({ ...newProduct, price: Number(e.target.value) })}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-bold"
                             />
                         </div>
 
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Image URL</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Image URL</label>
                             <input
                                 type="text"
                                 value={newProduct.image}
                                 onChange={e => setNewProduct({ ...newProduct, image: e.target.value })}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
                             />
-                            <p className="text-[10px] text-neutral-500">Use an image URL or keep default placeholder.</p>
                         </div>
 
                         <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-bold text-neutral-500">Description</label>
+                            <label className="text-xs uppercase font-black text-rose-400 px-1">Description</label>
                             <textarea
                                 value={newProduct.description}
                                 onChange={e => setNewProduct({ ...newProduct, description: e.target.value })}
-                                className="w-full bg-black/50 border border-white/10 rounded-xl p-3 text-white focus:border-rose-500 outline-none h-20"
+                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none h-20 font-medium"
                             />
                         </div>
 
-                        <button className="md:col-span-2 bg-rose-600 text-white font-bold py-3 rounded-xl hover:bg-rose-700">
-                            Add Content
+                        <button className="md:col-span-2 bg-rose-600 text-white font-black py-4 rounded-xl hover:bg-rose-700 shadow-lg shadow-rose-200 transition-all active:scale-95">
+                            ADD CONTENT NOW
                         </button>
                     </form>
                 </section>

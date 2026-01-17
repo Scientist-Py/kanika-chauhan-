@@ -37,13 +37,13 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
-      <div className="w-full max-w-md bg-neutral-900 rounded-t-3xl sm:rounded-3xl p-6 relative overflow-hidden ring-1 ring-white/10 slide-in-from-bottom duration-300">
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-rose-500/20 backdrop-blur-md animate-in fade-in duration-300">
+      <div className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl p-6 relative overflow-hidden ring-1 ring-rose-100 shadow-2xl slide-in-from-bottom duration-300">
 
         {step !== 'verifying' && (
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white z-10 hover:bg-white/20 transition-colors"
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-rose-50 text-rose-500 z-10 hover:bg-rose-100 transition-colors"
           >
             ✕
           </button>
@@ -52,7 +52,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
         {step === 'payment' && (
           <button
             onClick={() => setStep('details')}
-            className="absolute top-4 left-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-white z-10 hover:bg-white/20 transition-colors"
+            className="absolute top-4 left-4 w-8 h-8 flex items-center justify-center rounded-full bg-rose-50 text-rose-500 z-10 hover:bg-rose-100 transition-colors"
           >
             ←
           </button>
@@ -64,20 +64,20 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
               <div className="w-16 h-16 mx-auto rounded-2xl bg-rose-500/20 flex items-center justify-center text-rose-400 text-3xl mb-4 ring-1 ring-rose-500/20 shadow-lg shadow-rose-500/10">
                 {product.category === 'call' ? '📞' : product.category === 'chat' ? '💬' : '🔥'}
               </div>
-              <h3 className="text-xl font-bold text-white">{product.title}</h3>
-              <p className="text-2xl font-black text-rose-400">₹{product.price.toLocaleString()}</p>
+              <h3 className="text-xl font-bold text-neutral-900">{product.title}</h3>
+              <p className="text-2xl font-black text-rose-600">₹{product.price.toLocaleString()}</p>
             </div>
 
-            <div className="bg-white/5 rounded-2xl p-5 ring-1 ring-white/10">
-              <p className="text-sm font-medium text-neutral-400 uppercase tracking-widest mb-2 text-xs">Description</p>
-              <p className="text-neutral-200 leading-relaxed">
+            <div className="bg-rose-50/50 rounded-2xl p-5 border border-rose-100">
+              <p className="text-sm font-medium text-rose-400 uppercase tracking-widest mb-2 text-xs">Description</p>
+              <p className="text-neutral-700 leading-relaxed font-medium">
                 {product.description || "Unlock exclusive access to this premium content. Experience the best quality and personal attention."}
               </p>
             </div>
 
             <button
               onClick={handleBuy}
-              className="w-full py-4 bg-white text-black font-black text-lg rounded-2xl hover:bg-neutral-200 active:scale-95 transition-all shadow-lg shadow-white/10"
+              className="w-full py-4 bg-rose-600 text-white font-black text-lg rounded-2xl hover:bg-rose-700 active:scale-95 transition-all shadow-xl shadow-rose-200"
             >
               PROCEED TO BUY
             </button>
@@ -112,8 +112,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-white animate-pulse">Verifying Payment...</h3>
-              <p className="text-rose-400 text-sm italic">"Checking if you were naughty enough..." 😈</p>
+              <h3 className="text-xl font-bold text-neutral-900 animate-pulse">Verifying Payment...</h3>
+              <p className="text-rose-600 text-sm font-bold italic">"Checking if you were naughty enough..." 😈</p>
             </div>
 
             <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
@@ -129,27 +129,27 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
             </div>
 
             <div className="space-y-1">
-              <h3 className="text-xl font-bold text-white">Payment Not Detected 😢</h3>
-              <p className="text-neutral-400 text-sm">We couldn't verify your payment automatically.</p>
+              <h3 className="text-xl font-bold text-neutral-900">Payment Not Detected 😢</h3>
+              <p className="text-neutral-500 text-sm font-medium">We couldn't verify your payment automatically.</p>
             </div>
 
             <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
               <div className="space-y-2">
-                <label className="text-xs text-neutral-500 uppercase font-bold">Your Name / Instagram ID</label>
-                <input required type="text" placeholder="@yourname" className="w-full bg-neutral-800 border border-neutral-700 rounded-xl p-3 text-white focus:outline-none focus:border-rose-500" />
+                <label className="text-xs text-rose-400 uppercase font-black">Your Name / Instagram ID</label>
+                <input required type="text" placeholder="@yourname" className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:outline-none focus:border-rose-500 font-medium" />
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs text-neutral-500 uppercase font-bold">Transaction ID / Screenshot</label>
-                <input required type="text" placeholder="Enter Reference No." className="w-full bg-neutral-800 border border-neutral-700 rounded-xl p-3 text-white focus:outline-none focus:border-rose-500" />
+                <label className="text-xs text-rose-400 uppercase font-black">Transaction ID / Screenshot</label>
+                <input required type="text" placeholder="Enter Reference No." className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:outline-none focus:border-rose-500 font-medium" />
               </div>
 
-              <button type="submit" className="w-full py-4 bg-white text-black font-bold rounded-2xl hover:bg-neutral-200 transition-colors">
+              <button type="submit" className="w-full py-4 bg-rose-600 text-white font-black rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200">
                 Submit for Manual Check
               </button>
             </form>
 
-            <p className="text-[10px] text-neutral-500">I will personally check and reply under 2 hours. ❤️</p>
+            <p className="text-[10px] text-rose-400 font-bold uppercase tracking-wider">I will personally check and reply under 2 hours. ❤️</p>
           </div>
         )}
 
