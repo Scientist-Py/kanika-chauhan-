@@ -51,11 +51,26 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         const storedData = localStorage.getItem('adminData');
         if (storedData) {
             const parsed = JSON.parse(storedData);
-            if (parsed.mostUnlocked) setMostUnlocked(parsed.mostUnlocked);
-            if (parsed.newCollection) setNewCollection(parsed.newCollection);
-            if (parsed.services) setServices(parsed.services);
-            if (parsed.exclusives) setExclusives(parsed.exclusives);
-            if (parsed.vipServices) setVipServices(parsed.vipServices);
+
+            // Helper to merge: Use initial constants for items with same ID, keep stored items for new ones
+            const mergeProducts = (initial: Product[], stored: Product[]) => {
+                const initialMap = new Map(initial.map(p => [p.id, p]));
+                const storedMap = new Map(stored.map(p => [p.id, p]));
+
+                // For items in initial constants, we want the UPDATED version from code
+                const updatedFromInitial = initial;
+
+                // For items in stored that aren't in initial (dynamic items), we keep them
+                const uniqueStored = stored.filter(p => !initialMap.has(p.id));
+
+                return [...updatedFromInitial, ...uniqueStored];
+            };
+
+            if (parsed.mostUnlocked) setMostUnlocked(mergeProducts(INITIAL_MOST_UNLOCKED, parsed.mostUnlocked));
+            if (parsed.newCollection) setNewCollection(mergeProducts(INITIAL_NEW_COLLECTION, parsed.newCollection));
+            if (parsed.services) setServices(mergeProducts(INITIAL_SERVICES, parsed.services));
+            if (parsed.exclusives) setExclusives(mergeProducts(INITIAL_EXCLUSIVES, parsed.exclusives));
+            if (parsed.vipServices) setVipServices(mergeProducts(INITIAL_VIP_SERVICES, parsed.vipServices));
             if (parsed.notification) setNotification(parsed.notification);
         }
     }, []);
