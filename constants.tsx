@@ -75,7 +75,7 @@ export const NEW_COLLECTION: Product[] = [
 
 export const VIP_SERVICES: Product[] = [
   { id: 'vs1', title: 'Personal WhatsApp Access', price: 4999, image: img2, category: 'service', description: 'Get direct access to my personal WhatsApp. Let\'s build a real connection. 📱💖' },
-  { id: 'vs2', title: 'Luxury Dinner Date (Virtual)', price: 2999, image: img3, category: 'service', description: 'Let\'s have a romantic virtual dinner together. I\'ll dress up just for you. 🥂👗' },
+  { id: 'vs2', title: 'Luxury Dinner Date (Offline)', price: 6799, image: img3, category: 'service', description: 'Experience an exclusive 1-day offline date with me in Delhi. Take me to a hotel or restaurant of your choice. Do whatever you want to do with me. 🏨🍽️💋' },
   { id: 'vs3', title: 'Wake Up Call Service', price: 1500, image: img4, category: 'service', description: 'Start your morning with my voice. I\'ll call you to wake you up every day for a week. ☀️💋' },
 ];
 
