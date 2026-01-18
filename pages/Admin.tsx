@@ -15,7 +15,7 @@ const Admin: React.FC = () => {
         price: 0,
         title: '',
         description: '',
-        image: 'https://picsum.photos/400/500',
+        image: '/images/Picsart_26-01-15_13-45-50-370.jpg',
     });
     const [section, setSection] = useState<'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices'>('newCollection');
 
@@ -49,7 +49,7 @@ const Admin: React.FC = () => {
             price: 0,
             title: '',
             description: '',
-            image: 'https://picsum.photos/400/500',
+            image: '/images/Picsart_26-01-15_13-45-50-370.jpg',
         });
     };
 

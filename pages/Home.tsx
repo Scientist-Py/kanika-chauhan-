@@ -124,7 +124,7 @@ const Home: React.FC = () => {
                         <img
                             src={heroImage}
                             alt="Kanika Chauhan"
-                            className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-1000"
+                            className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-1000 blur-md"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                     </div>

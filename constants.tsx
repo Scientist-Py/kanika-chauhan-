@@ -2,24 +2,35 @@
 import React from 'react';
 import { Product } from './types';
 
-export const MOST_BOUGHT: Product[] = [
-  { id: 'mb1', title: 'Private Video Call (10 min)', price: 4000, image: 'https://picsum.photos/400/600?random=1', category: 'call', description: 'A personal 1-on-1 video call where we can talk about anything you want. No filters, just us.' },
-  { id: 'mb2', title: 'Naughty Voice Call', price: 2500, image: 'https://picsum.photos/400/600?random=2', category: 'call', description: 'Hear my voice whisper sweet (and spice) things in your ear. 10 minutes of pure audio bliss.' },
-  { id: 'mb3', title: 'Flirty 1-on-1 Chat', price: 1500, image: 'https://picsum.photos/400/600?random=3', category: 'chat', description: 'Text me directly for a quick chat. I’ll reply to your messages personally for 15 mins.' },
-  { id: 'mb4', title: 'Custom Video For You', price: 6000, image: 'https://picsum.photos/400/600?random=4', category: 'content', description: 'I will record a personalized video just for you based on your script or request.' },
-  { id: 'mb5', title: 'VIP Video Call', price: 7500, image: 'https://picsum.photos/400/600?random=5', category: 'call', description: 'Premium quality video call with priority booking. Longer duration and more intimate vibe.' },
-  { id: 'mb6', title: 'My Secret Photos', price: 2500, image: 'https://picsum.photos/400/600?random=6', category: 'content', description: 'Unlock a hidden album of 10 photos that are too hot for Instagram.' },
-];
+import img1 from './images/Picsart_26-01-15_13-45-50-370.jpg';
+import img2 from './images/Picsart_26-01-15_13-50-57-214.jpg';
+import img3 from './images/Picsart_26-01-15_14-13-14-480.jpg';
+import img4 from './images/Picsart_26-01-15_14-19-31-789.jpg';
+import img5 from './images/Picsart_26-01-15_14-19-45-737.jpg';
+import img6 from './images/Picsart_26-01-17_21-36-01-926.jpg';
+import img7 from './images/Picsart_26-01-18_00-18-39-817.jpg';
+import img8 from './images/SaveClip.App_610685032_18425295028118604_4722103354111989955_n.jpg';
+import img9 from './images/kanika_6.jpeg';
 
-import img30Images from './images/30 images and 2 videos .png';
-import imgPlaying from './images/playig with dildo.png';
-import imgStrippingBlackDress from './images/stripping black dress.png';
-import imgStrippingBlackSaree from './images/strippingblack saree.png';
-import imgVideoCall from './images/video call.png';
-import imgLetsHaveDirty from './images/lets have dirty latsk.png';
-import imgChatGpt1 from './images/ChatGPT Image Jan 9, 2026, 08_36_20 PM.png';
-import imgChatGpt2 from './images/ChatGPT Image Jan 9, 2026, 11_17_20 PM.png';
-import imgEzGif from './images/ezgif-frame-002.jpg';
+// Map old names to new ones for compatibility if needed, but we'll update usages
+const img30Images = img1;
+const imgPlaying = img2;
+const imgStrippingBlackDress = img3;
+const imgStrippingBlackSaree = img4;
+const imgVideoCall = img5;
+const imgLetsHaveDirty = img6;
+const imgChatGpt1 = img7;
+const imgChatGpt2 = img8;
+const imgEzGif = img9;
+
+export const MOST_BOUGHT: Product[] = [
+  { id: 'mb1', title: 'Private Video Call (10 min)', price: 4000, image: img1, category: 'call', description: 'A personal 1-on-1 video call where we can talk about anything you want. No filters, just us.' },
+  { id: 'mb2', title: 'Naughty Voice Call', price: 2500, image: img2, category: 'call', description: 'Hear my voice whisper sweet (and spice) things in your ear. 10 minutes of pure audio bliss.' },
+  { id: 'mb3', title: 'Flirty 1-on-1 Chat', price: 1500, image: img3, category: 'chat', description: 'Text me directly for a quick chat. I’ll reply to your messages personally for 15 mins.' },
+  { id: 'mb4', title: 'Custom Video For You', price: 6000, image: img4, category: 'content', description: 'I will record a personalized video just for you based on your script or request.' },
+  { id: 'mb5', title: 'VIP Video Call', price: 7500, image: img5, category: 'call', description: 'Premium quality video call with priority booking. Longer duration and more intimate vibe.' },
+  { id: 'mb6', title: 'My Secret Photos', price: 2500, image: img6, category: 'content', description: 'Unlock a hidden album of 10 photos that are too hot for Instagram.' },
+];
 
 export const MOST_UNLOCKED: Product[] = [
   { id: 'mu1', title: 'Exclusive Membership', description: 'Join my personal Telegram channel. I upload daily 10+ images and 3+ videos. They are not normal videos, they are enough to make you cum. 💦', price: 780, image: imgChatGpt1, category: 'subscription' },
@@ -36,10 +47,10 @@ export const TRUST_ITEMS = [
 ];
 
 export const EXCLUSIVES: Product[] = [
-  { id: 'ex1', title: 'Red Lingerie Set', itemsCount: '12 photos, 5 videos', price: 749, image: 'https://picsum.photos/400/400?random=21', category: 'content', description: 'My fav red lingerie set. Very hot and spicy collection. 🌶️❤️' },
-  { id: 'ex2', title: 'Pink Bra & Panty', itemsCount: '8 photos, 2 videos', price: 530, image: 'https://picsum.photos/400/400?random=22', category: 'content', description: 'Cute and naughty pink set. Showing off my curves. 🎀🫦' },
-  { id: 'ex3', title: 'Sheer White Nightwear', itemsCount: '15 photos, 4 videos', price: 649, image: 'https://picsum.photos/400/400?random=23', category: 'content', description: 'See through white nightwear. Very elegant and teasing. 🤍✨' },
-  { id: 'ex4', title: 'Black Lace Bodysuit', itemsCount: '25 photos, 10 videos', price: 1299, image: 'https://picsum.photos/400/400?random=24', category: 'content', description: 'Tight black lace bodysuit. My hottest look ever. 🖤🔥' },
+  { id: 'ex1', title: 'Red Lingerie Set', itemsCount: '12 photos, 5 videos', price: 749, image: img7, category: 'content', description: 'My fav red lingerie set. Very hot and spicy collection. 🌶️❤️' },
+  { id: 'ex2', title: 'Pink Bra & Panty', itemsCount: '8 photos, 2 videos', price: 530, image: img8, category: 'content', description: 'Cute and naughty pink set. Showing off my curves. 🎀🫦' },
+  { id: 'ex3', title: 'Sheer White Nightwear', itemsCount: '15 photos, 4 videos', price: 649, image: img9, category: 'content', description: 'See through white nightwear. Very elegant and teasing. 🤍✨' },
+  { id: 'ex4', title: 'Black Lace Bodysuit', itemsCount: '25 photos, 10 videos', price: 1299, image: img1, category: 'content', description: 'Tight black lace bodysuit. My hottest look ever. 🖤🔥' },
 ];
 
 export const SERVICES: Product[] = [
@@ -63,9 +74,9 @@ export const NEW_COLLECTION: Product[] = [
 ];
 
 export const VIP_SERVICES: Product[] = [
-  { id: 'vs1', title: 'Personal WhatsApp Access', price: 4999, image: 'https://picsum.photos/400/600?random=40', category: 'service', description: 'Get direct access to my personal WhatsApp. Let\'s build a real connection. 📱💖' },
-  { id: 'vs2', title: 'Luxury Dinner Date (Virtual)', price: 2999, image: 'https://picsum.photos/400/600?random=41', category: 'service', description: 'Let\'s have a romantic virtual dinner together. I\'ll dress up just for you. 🥂👗' },
-  { id: 'vs3', title: 'Wake Up Call Service', price: 1500, image: 'https://picsum.photos/400/600?random=42', category: 'service', description: 'Start your morning with my voice. I\'ll call you to wake you up every day for a week. ☀️💋' },
+  { id: 'vs1', title: 'Personal WhatsApp Access', price: 4999, image: img2, category: 'service', description: 'Get direct access to my personal WhatsApp. Let\'s build a real connection. 📱💖' },
+  { id: 'vs2', title: 'Luxury Dinner Date (Virtual)', price: 2999, image: img3, category: 'service', description: 'Let\'s have a romantic virtual dinner together. I\'ll dress up just for you. 🥂👗' },
+  { id: 'vs3', title: 'Wake Up Call Service', price: 1500, image: img4, category: 'service', description: 'Start your morning with my voice. I\'ll call you to wake you up every day for a week. ☀️💋' },
 ];
 
 
