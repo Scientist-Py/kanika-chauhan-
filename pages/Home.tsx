@@ -5,7 +5,7 @@ import { TRUST_ITEMS } from '../constants';
 import { useAdmin } from '../context/AdminContext';
 import PaymentModal from '../components/PaymentModal';
 import Notification from '../components/Notification';
-import heroImage from '../images/mdoel.png';
+import heroImage from '../images/main.png';
 
 const Home: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -124,7 +124,7 @@ const Home: React.FC = () => {
                         <img
                             src={heroImage}
                             alt="Kanika Chauhan"
-                            className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-1000 blur-md"
+                            className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-1000"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                     </div>
