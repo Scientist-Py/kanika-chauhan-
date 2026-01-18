@@ -33,7 +33,7 @@ export const MOST_BOUGHT: Product[] = [
 ];
 
 export const MOST_UNLOCKED: Product[] = [
-  { id: 'mu1', title: 'Exclusive Membership', description: 'Join my personal channel. I upload daily 10+ images and 3+ videos. They are not normal videos, they are enough for make you fall in love. 💦', price: 780, image: imgChatGpt1, category: 'subscription' },
+  { id: 'mu1', title: 'Exclusive Membership', description: 'Join my personal Telegram channel. I upload daily 10+ images and 3+ videos. They are not normal videos, they are enough to make you cum. 💦', price: 780, image: imgChatGpt1, category: 'subscription' },
   { id: 'mu2', title: 'Lets Talk on WhatsApp', description: 'Lets talk on WhatsApp for 1 week. Naughty talks, everything allowed. 💬🫦', price: 2999, image: imgChatGpt2, category: 'subscription' },
   { id: 'mu3', title: 'VIP Fan Club', description: 'Get access to special discounts for lifetime. No personal content, only huge savings. (Example: Get 570 pack for 340). 🏷️✨', price: 1299, image: imgEzGif, category: 'subscription' },
 ];

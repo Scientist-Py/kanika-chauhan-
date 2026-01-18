@@ -37,8 +37,9 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-rose-500/20 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="w-full max-w-md bg-white rounded-t-3xl sm:rounded-3xl p-6 relative overflow-hidden ring-1 ring-rose-100 shadow-2xl slide-in-from-bottom duration-300">
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-neutral-900/60 backdrop-blur-xl animate-in fade-in duration-500">
+      <div className="w-full max-w-md bg-white rounded-t-[3rem] sm:rounded-[3rem] p-8 relative overflow-hidden border border-white/20 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] slide-in-from-bottom-[100%] duration-700">
+        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500"></div>
 
         {step !== 'verifying' && (
           <button
@@ -68,10 +69,10 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
               <p className="text-2xl font-black text-rose-600">₹{product.price.toLocaleString()}</p>
             </div>
 
-            <div className="bg-rose-50/50 rounded-2xl p-5 border border-rose-100">
-              <p className="text-sm font-medium text-rose-400 uppercase tracking-widest mb-2 text-xs">Description</p>
-              <p className="text-neutral-700 leading-relaxed font-medium">
-                {product.description || "Unlock exclusive access to this premium content. Experience the best quality and personal attention."}
+            <div className="bg-rose-50/30 rounded-3xl p-6 border border-rose-100/50 backdrop-blur-sm">
+              <p className="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em] mb-3">Item Description</p>
+              <p className="text-neutral-600 leading-relaxed font-medium">
+                {product.description || "Get instant access to this exclusive premium content. Experience the highest quality and personal attention from me."}
               </p>
             </div>
 
