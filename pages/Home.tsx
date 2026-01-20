@@ -4,7 +4,7 @@ import { Product } from '../types';
 import { TRUST_ITEMS } from '../constants';
 import { useAdmin } from '../context/AdminContext';
 import PaymentModal from '../components/PaymentModal';
-import Notification from '../components/Notification';
+import UserStats from '../components/UserStats';
 import heroImage from '../images/main.png';
 
 const Home: React.FC = () => {
@@ -60,14 +60,11 @@ const Home: React.FC = () => {
             <div className="fixed bottom-40 -right-20 w-96 h-96 bg-amber-100/40 rounded-full blur-[120px] pointer-events-none animate-pulse delay-700"></div>
             <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[radial-gradient(circle,rgba(255,245,247,0.5)_0%,rgba(255,255,255,0)_70%)] pointer-events-none"></div>
 
-            {/* Global Notification */}
-            <Notification />
-
             {/* Header */}
             <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/80 backdrop-blur-md py-2 shadow-sm' : 'bg-transparent py-4'}`}>
                 <div className="max-w-2xl mx-auto px-4 flex items-center justify-between">
                     <div className="flex items-center gap-2" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-rose-500 shadow-rose-500/20 shadow-lg">
+                        <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-rose-50 shadow-rose-50/20 shadow-lg">
                             <img src={heroImage} alt="Kanika Chauhan" className="w-full h-full object-cover" />
                         </div>
                         <span className="font-bold text-neutral-900 tracking-tight hidden xs:block">Kanika C.</span>
@@ -134,6 +131,10 @@ const Home: React.FC = () => {
                     </div>
                 </div>
             </section>
+
+
+            {/* User Stats Aside - Positioned on the right for desktop */}
+            <UserStats />
 
             <main className="max-w-2xl mx-auto space-y-16 py-12">
 

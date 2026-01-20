@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 import { useAdmin } from '../context/AdminContext';
 import { Product } from '../types';
 
+
 const Admin: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { notification, showNotification, addProduct } = useAdmin();
+    const { addProduct, stats, topSpenders, updateStats, updateSpenders } = useAdmin();
 
     // New Product Form State
     const [newProduct, setNewProduct] = useState<Partial<Product>>({
@@ -19,11 +20,15 @@ const Admin: React.FC = () => {
     });
     const [section, setSection] = useState<'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices'>('newCollection');
 
-    // Notification Form State
-    const [notifMsg, setNotifMsg] = useState(notification.message);
-    const [notifType, setNotifType] = useState(notification.type);
-    const [notifLink, setNotifLink] = useState(notification.link || '');
-    const [notifBtn, setNotifBtn] = useState(notification.buttonText || '');
+    // Stats Editing State
+    const [editStats, setEditStats] = useState(stats);
+    const [editSpenders, setEditSpenders] = useState(topSpenders);
+
+    // Sync local edit state with context when context updates
+    React.useEffect(() => {
+        setEditStats(stats);
+        setEditSpenders(topSpenders);
+    }, [stats, topSpenders]);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,10 +58,16 @@ const Admin: React.FC = () => {
         });
     };
 
-    const handleUpdateNotification = (e: React.FormEvent) => {
-        e.preventDefault();
-        showNotification(notifMsg, notifType, notifLink, notifBtn);
-        alert('Notification Updated!');
+    const handleSaveStats = () => {
+        updateStats(editStats.totalUsers, editStats.monthlyUsers);
+        updateSpenders(editSpenders);
+        alert('Statistics & Leaderboard Updated!');
+    };
+
+    const updateSpenderField = (index: number, field: 'name' | 'amount', value: string) => {
+        const updated = [...editSpenders];
+        updated[index] = { ...updated[index], [field]: value };
+        setEditSpenders(updated);
     };
 
     if (!isAuthenticated) {
@@ -102,54 +113,89 @@ const Admin: React.FC = () => {
                     <button onClick={() => setIsAuthenticated(false)} className="text-xs font-black text-rose-500 uppercase tracking-widest hover:text-rose-700 bg-rose-50 px-4 py-2 rounded-full border border-rose-100">Logout</button>
                 </header>
 
-                {/* Global Notification Settings */}
-                <section className="space-y-6 bg-white p-8 rounded-3xl border border-rose-100 shadow-xl shadow-rose-200/20">
-                    <h2 className="text-xl font-black text-rose-500 italic">🔔 Global Notification</h2>
-                    <form onSubmit={handleUpdateNotification} className="grid md:grid-cols-2 gap-6">
-                        <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-black text-rose-400 px-1">Message</label>
-                            <textarea
-                                value={notifMsg}
-                                onChange={e => setNotifMsg(e.target.value)}
-                                className="w-full bg-rose-50 border border-rose-100 rounded-2xl p-4 text-neutral-900 focus:border-rose-500 outline-none h-24 font-medium"
-                            />
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-xs uppercase font-black text-rose-400 px-1">Type</label>
-                            <select
-                                value={notifType}
-                                onChange={e => setNotifType(e.target.value as any)}
-                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-bold"
-                            >
-                                <option value="info">Info</option>
-                                <option value="success">Success</option>
-                                <option value="alert">Alert</option>
-                                <option value="promo">Promo</option>
-                            </select>
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-xs uppercase font-black text-rose-400 px-1">Button Text</label>
-                            <input
-                                type="text"
-                                value={notifBtn}
-                                onChange={e => setNotifBtn(e.target.value)}
-                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
-                            />
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                            <label className="text-xs uppercase font-black text-rose-400 px-1">Link URL</label>
-                            <input
-                                type="text"
-                                value={notifLink}
-                                onChange={e => setNotifLink(e.target.value)}
-                                className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:border-rose-500 outline-none font-medium"
-                            />
-                        </div>
-                        <button className="md:col-span-2 bg-neutral-900 text-white font-black py-4 rounded-xl hover:bg-black shadow-lg shadow-neutral-300 transition-all active:scale-95">
-                            UPDATE NOTIFICATION
-                        </button>
-                    </form>
+                {/* Stats Summary (Live from context) */}
+                <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
+                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Live Total</p>
+                        <p className="text-2xl font-black text-neutral-900">{stats.totalUsers}</p>
+                    </div>
+                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
+                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Monthly Live</p>
+                        <p className="text-2xl font-black text-neutral-900">{stats.monthlyUsers}</p>
+                    </div>
+                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
+                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Total Sales</p>
+                        <p className="text-2xl font-black text-neutral-900">₹6.4M</p>
+                    </div>
+                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
+                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Conversion</p>
+                        <p className="text-2xl font-black text-neutral-900">18.5%</p>
+                    </div>
                 </section>
+
+                {/* Manage Metrics & Leaderboard */}
+                <section className="bg-white p-8 rounded-[3rem] border border-rose-100 shadow-xl shadow-rose-200/20 space-y-8">
+                    <h2 className="text-xl font-black text-rose-500 italic">📊 Live Metrics & Leaderboard</h2>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Metrics */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-black text-neutral-400 uppercase tracking-widest">Live Metrics</h3>
+                            <div className="space-y-4">
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-black text-rose-400 uppercase">Total Users</label>
+                                    <input
+                                        type="text"
+                                        value={editStats.totalUsers}
+                                        onChange={e => setEditStats({ ...editStats, totalUsers: e.target.value })}
+                                        className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 outline-none"
+                                    />
+                                </div>
+                                <div className="space-y-1">
+                                    <label className="text-[10px] font-black text-rose-400 uppercase">Monthly Active</label>
+                                    <input
+                                        type="text"
+                                        value={editStats.monthlyUsers}
+                                        onChange={e => setEditStats({ ...editStats, monthlyUsers: e.target.value })}
+                                        className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 outline-none"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Leaderboard */}
+                        <div className="space-y-4">
+                            <h3 className="text-sm font-black text-neutral-400 uppercase tracking-widest">Top 5 Spenders</h3>
+                            <div className="space-y-3">
+                                {editSpenders.map((s, i) => (
+                                    <div key={i} className="flex gap-2">
+                                        <input
+                                            placeholder="Name"
+                                            value={s.name}
+                                            onChange={e => updateSpenderField(i, 'name', e.target.value)}
+                                            className="flex-grow bg-rose-50 border border-rose-100 rounded-xl p-2 text-xs outline-none"
+                                        />
+                                        <input
+                                            placeholder="Amount"
+                                            value={s.amount}
+                                            onChange={e => updateSpenderField(i, 'amount', e.target.value)}
+                                            className="w-24 bg-rose-50 border border-rose-100 rounded-xl p-2 text-xs outline-none"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button
+                        onClick={handleSaveStats}
+                        className="w-full bg-neutral-900 text-white font-black py-4 rounded-2xl hover:bg-black shadow-xl shadow-neutral-200 active:scale-95 transition-all"
+                    >
+                        SAVE CHANGES
+                    </button>
+                </section>
+
+
 
                 {/* Add Product */}
                 <section className="space-y-6 bg-white p-8 rounded-3xl border border-rose-100 shadow-xl shadow-rose-200/20">

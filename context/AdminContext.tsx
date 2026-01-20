@@ -3,21 +3,14 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { Product } from '../types';
 import { MOST_UNLOCKED as INITIAL_MOST_UNLOCKED, NEW_COLLECTION as INITIAL_NEW_COLLECTION, SERVICES as INITIAL_SERVICES, EXCLUSIVES as INITIAL_EXCLUSIVES, VIP_SERVICES as INITIAL_VIP_SERVICES } from '../constants';
 
-type NotificationType = 'info' | 'success' | 'alert' | 'promo';
 
-interface NotificationState {
-    message: string;
-    type: NotificationType;
-    isVisible: boolean;
-    link?: string;
-    buttonText?: string;
+
+interface Spender {
+    name: string;
+    amount: string;
 }
 
 interface AdminContextType {
-    notification: NotificationState;
-    showNotification: (message: string, type?: NotificationType, link?: string, buttonText?: string) => void;
-    hideNotification: () => void;
-
     // Product Data
     mostUnlocked: Product[];
     newCollection: Product[];
@@ -25,26 +18,41 @@ interface AdminContextType {
     exclusives: Product[];
     vipServices: Product[];
 
+    // Stats and Leaderboard
+    stats: {
+        totalUsers: string;
+        monthlyUsers: string;
+    };
+    topSpenders: Spender[];
+
     addProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => void;
     deleteProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', id: string) => void;
+    updateStats: (total: string, monthly: string) => void;
+    updateSpenders: (spenders: Spender[]) => void;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
 
 export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    // Notification State
-    const [notification, setNotification] = useState<NotificationState>({
-        message: 'Welcome to my official app! 💋',
-        type: 'promo',
-        isVisible: true,
-    });
-
     // Product State (Initialized from constants)
     const [mostUnlocked, setMostUnlocked] = useState<Product[]>(INITIAL_MOST_UNLOCKED);
     const [newCollection, setNewCollection] = useState<Product[]>(INITIAL_NEW_COLLECTION);
     const [services, setServices] = useState<Product[]>(INITIAL_SERVICES);
     const [exclusives, setExclusives] = useState<Product[]>(INITIAL_EXCLUSIVES);
     const [vipServices, setVipServices] = useState<Product[]>(INITIAL_VIP_SERVICES);
+
+    // Stats State
+    const [stats, setStats] = useState({
+        totalUsers: '87,617',
+        monthlyUsers: '2,469'
+    });
+    const [topSpenders, setTopSpenders] = useState<Spender[]>([
+        { name: 'Rahul Shrivastav', amount: '₹44,500' },
+        { name: 'Shubham', amount: '₹32,200' },
+        { name: 'Vikram Singh', amount: '₹28,800' },
+        { name: 'Amit Kumar', amount: '₹24,400' },
+        { name: 'Sanjay', amount: '₹18,900' }
+    ]);
 
     // Load from local storage if available (mock persistence)
     useEffect(() => {
@@ -55,14 +63,8 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             // Helper to merge: Use initial constants for items with same ID, keep stored items for new ones
             const mergeProducts = (initial: Product[], stored: Product[]) => {
                 const initialMap = new Map(initial.map(p => [p.id, p]));
-                const storedMap = new Map(stored.map(p => [p.id, p]));
-
-                // For items in initial constants, we want the UPDATED version from code
                 const updatedFromInitial = initial;
-
-                // For items in stored that aren't in initial (dynamic items), we keep them
                 const uniqueStored = stored.filter(p => !initialMap.has(p.id));
-
                 return [...updatedFromInitial, ...uniqueStored];
             };
 
@@ -71,7 +73,9 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             if (parsed.services) setServices(mergeProducts(INITIAL_SERVICES, parsed.services));
             if (parsed.exclusives) setExclusives(mergeProducts(INITIAL_EXCLUSIVES, parsed.exclusives));
             if (parsed.vipServices) setVipServices(mergeProducts(INITIAL_VIP_SERVICES, parsed.vipServices));
-            if (parsed.notification) setNotification(parsed.notification);
+
+            if (parsed.stats) setStats(parsed.stats);
+            if (parsed.topSpenders) setTopSpenders(parsed.topSpenders);
         }
     }, []);
 
@@ -83,23 +87,10 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             services,
             exclusives,
             vipServices,
-            notification
+            stats,
+            topSpenders
         }));
-    }, [mostUnlocked, newCollection, services, exclusives, vipServices, notification]);
-
-    const showNotification = (message: string, type: NotificationType = 'info', link?: string, buttonText?: string) => {
-        setNotification({
-            message,
-            type,
-            isVisible: true,
-            link,
-            buttonText
-        });
-    };
-
-    const hideNotification = () => {
-        setNotification(prev => ({ ...prev, isVisible: false }));
-    };
+    }, [mostUnlocked, newCollection, services, exclusives, vipServices, stats, topSpenders]);
 
     const addProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => {
         switch (section) {
@@ -121,23 +112,34 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         }
     };
 
+    const updateStats = (total: string, monthly: string) => {
+        setStats({ totalUsers: total, monthlyUsers: monthly });
+    };
+
+    const updateSpenders = (spenders: Spender[]) => {
+        setTopSpenders(spenders);
+    };
+
     return (
         <AdminContext.Provider value={{
-            notification,
-            showNotification,
-            hideNotification,
             mostUnlocked,
             newCollection,
             services,
             exclusives,
             vipServices,
+            stats,
+            topSpenders,
             addProduct,
-            deleteProduct
+            deleteProduct,
+            updateStats,
+            updateSpenders
         }}>
             {children}
         </AdminContext.Provider>
     );
 };
+
+
 
 export const useAdmin = () => {
     const context = useContext(AdminContext);
