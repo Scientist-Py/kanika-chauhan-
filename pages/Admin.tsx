@@ -8,7 +8,7 @@ const Admin: React.FC = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const { addProduct, stats, topSpenders, updateStats, updateSpenders } = useAdmin();
+    const { addProduct } = useAdmin();
 
     // New Product Form State
     const [newProduct, setNewProduct] = useState<Partial<Product>>({
@@ -20,15 +20,7 @@ const Admin: React.FC = () => {
     });
     const [section, setSection] = useState<'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices'>('newCollection');
 
-    // Stats Editing State
-    const [editStats, setEditStats] = useState(stats);
-    const [editSpenders, setEditSpenders] = useState(topSpenders);
 
-    // Sync local edit state with context when context updates
-    React.useEffect(() => {
-        setEditStats(stats);
-        setEditSpenders(topSpenders);
-    }, [stats, topSpenders]);
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
@@ -58,17 +50,7 @@ const Admin: React.FC = () => {
         });
     };
 
-    const handleSaveStats = () => {
-        updateStats(editStats.totalUsers, editStats.monthlyUsers);
-        updateSpenders(editSpenders);
-        alert('Statistics & Leaderboard Updated!');
-    };
 
-    const updateSpenderField = (index: number, field: 'name' | 'amount', value: string) => {
-        const updated = [...editSpenders];
-        updated[index] = { ...updated[index], [field]: value };
-        setEditSpenders(updated);
-    };
 
     if (!isAuthenticated) {
         return (
@@ -113,87 +95,7 @@ const Admin: React.FC = () => {
                     <button onClick={() => setIsAuthenticated(false)} className="text-xs font-black text-rose-500 uppercase tracking-widest hover:text-rose-700 bg-rose-50 px-4 py-2 rounded-full border border-rose-100">Logout</button>
                 </header>
 
-                {/* Stats Summary (Live from context) */}
-                <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
-                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Live Total</p>
-                        <p className="text-2xl font-black text-neutral-900">{stats.totalUsers}</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
-                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Monthly Live</p>
-                        <p className="text-2xl font-black text-neutral-900">{stats.monthlyUsers}</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
-                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Total Sales</p>
-                        <p className="text-2xl font-black text-neutral-900">₹6.4M</p>
-                    </div>
-                    <div className="bg-white p-6 rounded-3xl border border-rose-100 shadow-lg text-center">
-                        <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest">Conversion</p>
-                        <p className="text-2xl font-black text-neutral-900">18.5%</p>
-                    </div>
-                </section>
 
-                {/* Manage Metrics & Leaderboard */}
-                <section className="bg-white p-8 rounded-[3rem] border border-rose-100 shadow-xl shadow-rose-200/20 space-y-8">
-                    <h2 className="text-xl font-black text-rose-500 italic">📊 Live Metrics & Leaderboard</h2>
-
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {/* Metrics */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-black text-neutral-400 uppercase tracking-widest">Live Metrics</h3>
-                            <div className="space-y-4">
-                                <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-rose-400 uppercase">Total Users</label>
-                                    <input
-                                        type="text"
-                                        value={editStats.totalUsers}
-                                        onChange={e => setEditStats({ ...editStats, totalUsers: e.target.value })}
-                                        className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 outline-none"
-                                    />
-                                </div>
-                                <div className="space-y-1">
-                                    <label className="text-[10px] font-black text-rose-400 uppercase">Monthly Active</label>
-                                    <input
-                                        type="text"
-                                        value={editStats.monthlyUsers}
-                                        onChange={e => setEditStats({ ...editStats, monthlyUsers: e.target.value })}
-                                        className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 outline-none"
-                                    />
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* Leaderboard */}
-                        <div className="space-y-4">
-                            <h3 className="text-sm font-black text-neutral-400 uppercase tracking-widest">Top 5 Spenders</h3>
-                            <div className="space-y-3">
-                                {editSpenders.map((s, i) => (
-                                    <div key={i} className="flex gap-2">
-                                        <input
-                                            placeholder="Name"
-                                            value={s.name}
-                                            onChange={e => updateSpenderField(i, 'name', e.target.value)}
-                                            className="flex-grow bg-rose-50 border border-rose-100 rounded-xl p-2 text-xs outline-none"
-                                        />
-                                        <input
-                                            placeholder="Amount"
-                                            value={s.amount}
-                                            onChange={e => updateSpenderField(i, 'amount', e.target.value)}
-                                            className="w-24 bg-rose-50 border border-rose-100 rounded-xl p-2 text-xs outline-none"
-                                        />
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-
-                    <button
-                        onClick={handleSaveStats}
-                        className="w-full bg-neutral-900 text-white font-black py-4 rounded-2xl hover:bg-black shadow-xl shadow-neutral-200 active:scale-95 transition-all"
-                    >
-                        SAVE CHANGES
-                    </button>
-                </section>
 
 
 

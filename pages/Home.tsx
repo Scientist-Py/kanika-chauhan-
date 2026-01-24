@@ -4,7 +4,7 @@ import { Product } from '../types';
 import { TRUST_ITEMS } from '../constants';
 import { useAdmin } from '../context/AdminContext';
 import PaymentModal from '../components/PaymentModal';
-import UserStats from '../components/UserStats';
+
 import heroImage from '../images/main.png';
 
 const Home: React.FC = () => {
@@ -133,8 +133,7 @@ const Home: React.FC = () => {
             </section>
 
 
-            {/* User Stats Aside - Positioned on the right for desktop */}
-            <UserStats />
+
 
             <main className="max-w-2xl mx-auto space-y-16 py-12">
 

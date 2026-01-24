@@ -5,10 +5,7 @@ import { MOST_UNLOCKED as INITIAL_MOST_UNLOCKED, NEW_COLLECTION as INITIAL_NEW_C
 
 
 
-interface Spender {
-    name: string;
-    amount: string;
-}
+
 
 interface AdminContextType {
     // Product Data
@@ -18,17 +15,11 @@ interface AdminContextType {
     exclusives: Product[];
     vipServices: Product[];
 
-    // Stats and Leaderboard
-    stats: {
-        totalUsers: string;
-        monthlyUsers: string;
-    };
-    topSpenders: Spender[];
+
 
     addProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => void;
     deleteProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', id: string) => void;
-    updateStats: (total: string, monthly: string) => void;
-    updateSpenders: (spenders: Spender[]) => void;
+
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -41,18 +32,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const [exclusives, setExclusives] = useState<Product[]>(INITIAL_EXCLUSIVES);
     const [vipServices, setVipServices] = useState<Product[]>(INITIAL_VIP_SERVICES);
 
-    // Stats State
-    const [stats, setStats] = useState({
-        totalUsers: '87,617',
-        monthlyUsers: '2,469'
-    });
-    const [topSpenders, setTopSpenders] = useState<Spender[]>([
-        { name: 'Rahul Shrivastav', amount: '₹44,500' },
-        { name: 'Shubham', amount: '₹32,200' },
-        { name: 'Vikram Singh', amount: '₹28,800' },
-        { name: 'Amit Kumar', amount: '₹24,400' },
-        { name: 'Sanjay', amount: '₹18,900' }
-    ]);
+
 
     // Load from local storage if available (mock persistence)
     useEffect(() => {
@@ -74,8 +54,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             if (parsed.exclusives) setExclusives(mergeProducts(INITIAL_EXCLUSIVES, parsed.exclusives));
             if (parsed.vipServices) setVipServices(mergeProducts(INITIAL_VIP_SERVICES, parsed.vipServices));
 
-            if (parsed.stats) setStats(parsed.stats);
-            if (parsed.topSpenders) setTopSpenders(parsed.topSpenders);
+
         }
     }, []);
 
@@ -86,11 +65,9 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             newCollection,
             services,
             exclusives,
-            vipServices,
-            stats,
-            topSpenders
+            vipServices
         }));
-    }, [mostUnlocked, newCollection, services, exclusives, vipServices, stats, topSpenders]);
+    }, [mostUnlocked, newCollection, services, exclusives, vipServices]);
 
     const addProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => {
         switch (section) {
@@ -112,14 +89,6 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         }
     };
 
-    const updateStats = (total: string, monthly: string) => {
-        setStats({ totalUsers: total, monthlyUsers: monthly });
-    };
-
-    const updateSpenders = (spenders: Spender[]) => {
-        setTopSpenders(spenders);
-    };
-
     return (
         <AdminContext.Provider value={{
             mostUnlocked,
@@ -127,19 +96,13 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             services,
             exclusives,
             vipServices,
-            stats,
-            topSpenders,
             addProduct,
-            deleteProduct,
-            updateStats,
-            updateSpenders
+            deleteProduct
         }}>
             {children}
         </AdminContext.Provider>
     );
 };
-
-
 
 export const useAdmin = () => {
     const context = useContext(AdminContext);
