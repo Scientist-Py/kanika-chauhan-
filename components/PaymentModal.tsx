@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
+import { getDiscountedPrice, IS_REPUBLIC_DAY_OFFER_ACTIVE } from '../utils';
 
 interface PaymentModalProps {
   product: Product | null;
@@ -66,7 +67,12 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
                 {product.category === 'call' ? '📞' : product.category === 'chat' ? '💬' : '🔥'}
               </div>
               <h3 className="text-xl font-bold text-neutral-900">{product.title}</h3>
-              <p className="text-2xl font-black text-rose-600">₹{product.price.toLocaleString()}</p>
+              <div className="flex flex-col items-center">
+                <p className="text-2xl font-black text-rose-600">₹{getDiscountedPrice(product.price).toLocaleString()}</p>
+                {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                  <p className="text-sm text-neutral-400 line-through">₹{product.price.toLocaleString()}</p>
+                )}
+              </div>
             </div>
 
             <div className="bg-rose-50/30 rounded-3xl p-6 border border-rose-100/50 backdrop-blur-sm">
@@ -90,7 +96,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
             <h3 className="text-lg font-bold text-white">Scan to Pay</h3>
 
             <div className="bg-white p-4 rounded-xl inline-block mx-auto mx-auto">
-              <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=kanikachauhan@airtel&pn=KanikaChauhan&am=${product.price}&cu=INR`} alt="Payment QR" className="w-48 h-48 mix-blend-multiply" />
+              <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=kanikachauhan@airtel&pn=KanikaChauhan&am=${getDiscountedPrice(product.price)}&cu=INR`} alt="Payment QR" className="w-48 h-48 mix-blend-multiply" />
             </div>
 
             <p className="text-neutral-400 text-sm">Scan with any UPI App<br />(GPay, PhonePe, Paytm)</p>

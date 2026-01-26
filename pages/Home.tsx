@@ -4,6 +4,8 @@ import { Product } from '../types';
 import { TRUST_ITEMS } from '../constants';
 import { useAdmin } from '../context/AdminContext';
 import PaymentModal from '../components/PaymentModal';
+import RepublicDayPoster from '../components/RepublicDayPoster';
+import { IS_REPUBLIC_DAY_OFFER_ACTIVE, getDiscountedPrice, getDiscountPercentage } from '../utils';
 
 import heroImage from '../images/main.png';
 
@@ -67,7 +69,14 @@ const Home: React.FC = () => {
                         <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-rose-50 shadow-rose-50/20 shadow-lg">
                             <img src={heroImage} alt="Kanika Chauhan" className="w-full h-full object-cover" />
                         </div>
-                        <span className="font-bold text-neutral-900 tracking-tight hidden xs:block">Kanika C.</span>
+                        <div className="flex flex-col">
+                            <span className="font-bold text-neutral-900 tracking-tight hidden xs:block">Kanika C.</span>
+                            {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                <span className="text-[8px] font-black text-orange-500 uppercase tracking-widest hidden xs:block">
+                                    🇮🇳 Republic Day Offer
+                                </span>
+                            )}
+                        </div>
                     </div>
                 </div>
             </header>
@@ -184,7 +193,17 @@ const Home: React.FC = () => {
                                         <div className="absolute bottom-0 inset-x-0 p-6 space-y-4">
                                             <div className="space-y-1">
                                                 <p className="text-neutral-900 font-bold text-lg leading-tight">{item.title}</p>
-                                                <p className="text-rose-500 font-black text-xl">₹{item.price.toLocaleString()}</p>
+                                                <div className="flex items-center gap-2">
+                                                    <p className="text-rose-500 font-black text-xl">₹{getDiscountedPrice(item.price).toLocaleString()}</p>
+                                                    {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                                        <>
+                                                            <p className="text-neutral-400 text-sm line-through decoration-rose-400/50">₹{item.price.toLocaleString()}</p>
+                                                            <span className="text-[10px] font-black text-green-500 bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                                                                -{getDiscountPercentage(item.price)}%
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </div>
                                             </div>
                                             <button
                                                 onClick={() => handlePurchase(item)}
@@ -216,7 +235,19 @@ const Home: React.FC = () => {
                                         <p className="text-sm text-neutral-500 line-clamp-2 leading-relaxed">{item.description}</p>
                                     </div>
                                     <div className="flex items-center justify-between pt-2">
-                                        <span className="text-2xl font-black text-rose-600">₹{item.price.toLocaleString()}</span>
+                                        <div className="flex flex-col">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-2xl font-black text-rose-600">₹{getDiscountedPrice(item.price).toLocaleString()}</span>
+                                                {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                                    <span className="text-xs font-black text-green-500 bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                                                        -{getDiscountPercentage(item.price)}% OFF
+                                                    </span>
+                                                )}
+                                            </div>
+                                            {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                                <span className="text-xs text-neutral-400 line-through">₹{item.price.toLocaleString()}</span>
+                                            )}
+                                        </div>
                                         <button
                                             onClick={() => handlePurchase(item)}
                                             className="px-6 py-3 bg-neutral-900 text-white text-xs font-black rounded-xl active:scale-95 transition-all shadow-lg hover:bg-black uppercase tracking-widest"
@@ -246,7 +277,14 @@ const Home: React.FC = () => {
                                     onClick={() => handlePurchase(item)}
                                     className="absolute bottom-4 inset-x-4 py-3 bg-white/90 backdrop-blur-md text-rose-600 text-xs font-black rounded-xl border border-rose-100 active:scale-95 transition-all shadow-xl hover:bg-rose-500 hover:text-white"
                                 >
-                                    UNLOCK ₹{item.price.toLocaleString()}
+                                    {IS_REPUBLIC_DAY_OFFER_ACTIVE() ? (
+                                        <div className="flex items-center justify-center gap-2">
+                                            <span>UNLOCK ₹{getDiscountedPrice(item.price).toLocaleString()}</span>
+                                            <span className="text-[10px] line-through opacity-60">₹{item.price.toLocaleString()}</span>
+                                        </div>
+                                    ) : (
+                                        `UNLOCK ₹${item.price.toLocaleString()}`
+                                    )}
                                 </button>
                             </div>
                         ))}
@@ -264,7 +302,15 @@ const Home: React.FC = () => {
                                         <p className="text-neutral-900 font-bold text-lg group-hover:text-rose-600 transition-colors">{item.title}</p>
                                         <div className="flex items-center gap-2">
                                             <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                                            <p className="text-rose-500 font-black text-xl">₹{item.price.toLocaleString()}</p>
+                                            <p className="text-rose-500 font-black text-xl">₹{getDiscountedPrice(item.price).toLocaleString()}</p>
+                                            {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                                <>
+                                                    <p className="text-xs text-neutral-400 line-through decoration-rose-300">₹{item.price.toLocaleString()}</p>
+                                                    <span className="text-[10px] font-black text-green-600 bg-green-50 px-2 py-0.5 rounded-full">
+                                                        -{getDiscountPercentage(item.price)}%
+                                                    </span>
+                                                </>
+                                            )}
                                         </div>
                                     </div>
                                     <button
@@ -297,8 +343,18 @@ const Home: React.FC = () => {
                                     <p className="text-neutral-500 font-medium leading-relaxed">{item.description}</p>
                                     <div className="flex items-center justify-between mt-8">
                                         <div className="flex flex-col">
-                                            <span className="text-[10px] font-black text-amber-500 uppercase tracking-widest">Premium Rate</span>
-                                            <span className="text-3xl font-black text-neutral-900">₹{item.price.toLocaleString()}</span>
+                                            <span className="text-[10px] font-black text-amber-500 uppercase tracking-widest">
+                                                {IS_REPUBLIC_DAY_OFFER_ACTIVE() ? 'Republic Day Offer' : 'Premium Rate'}
+                                            </span>
+                                            <div className="flex items-end gap-2">
+                                                <span className="text-3xl font-black text-neutral-900">₹{getDiscountedPrice(item.price).toLocaleString()}</span>
+                                                {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                                    <div className="flex flex-col">
+                                                        <span className="text-[10px] font-black text-green-500 uppercase">Save {getDiscountPercentage(item.price)}%</span>
+                                                        <span className="text-sm text-neutral-400 line-through decoration-amber-400/50 mb-1">₹{item.price.toLocaleString()}</span>
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
                                         <button
                                             onClick={() => handlePurchase(item)}
@@ -384,6 +440,9 @@ const Home: React.FC = () => {
                 product={selectedProduct}
                 onClose={() => setSelectedProduct(null)}
             />
+
+            {/* Republic Day Offer Poster */}
+            <RepublicDayPoster />
         </div>
     );
 };
