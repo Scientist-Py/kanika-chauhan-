@@ -7,6 +7,10 @@ export interface Product {
   category: 'content' | 'call' | 'chat' | 'subscription' | 'service';
   description?: string;
   itemsCount?: string;
+  isNew?: boolean;
+  blur?: boolean;
+  isHot?: boolean;
+  priceOptions?: { label: string; price: number }[];
 }
 
 export interface PaymentMethod {

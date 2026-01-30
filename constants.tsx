@@ -12,6 +12,13 @@ import img7 from './images/Picsart_26-01-18_00-18-39-817.jpg';
 import img8 from './images/SaveClip.App_610685032_18425295028118604_4722103354111989955_n.jpg';
 import img9 from './images/kanika_6.jpeg';
 
+// New arrivals
+import imgNewSaree from './images/stripping black saree.png';
+import imgRomance from './images/romancve with my partner.png';
+import imgRedDress from './images/hot red dress stripping.png';
+import imgPinkDressFull from './images/30 min stripping pink dress and fingering and cumminga nd eating cum.png';
+import imgRoleplay from './images/grok_image_1769792356516.jpg';
+
 // Map old names to new ones for compatibility if needed, but we'll update usages
 const img30Images = img1;
 const imgPlaying = img2;
@@ -65,6 +72,24 @@ export const SERVICES: Product[] = [
 
 
 export const NEW_COLLECTION: Product[] = [
+  {
+    id: 'nc-roleplay-1',
+    title: 'Secretary & Boss Roleplay (Extreme) 👓👔',
+    price: 1899,
+    image: imgRoleplay,
+    category: 'service',
+    description: 'Watch me getting fucked very hard in boss and secretary role. He liked my pussy very deeply and I cum on his face. I was really screaming like a hell and he make me squirt 7 times. 🔞💦👅',
+    isNew: true,
+    blur: true,
+    priceOptions: [
+      { label: '30 MIN (1 Time Squirt)', price: 1899 },
+      { label: '45 MIN (2 Times Squirt)', price: 2799 },
+      { label: 'FULL VIDEO (2HR 7MIN Long)', price: 4399 },
+    ]
+  },
+  { id: 'nc-new-1', title: 'Stripping Black Saree 🥻🔞', price: 899, image: imgNewSaree, category: 'content', description: 'Delicious strip tease in a sheer black saree. Seeing me getting naked in traditional wear is every man\'s dream. 🥻🔞💦', isNew: true, blur: true },
+  { id: 'nc-new-3', title: 'Hot Red Dress Stripping 👗❤️', price: 849, image: imgRedDress, category: 'content', description: 'Slowly taking off my hot red dress. My curves look best in red before I\'m completely bare. 👗❤️🔞', isNew: true, blur: true },
+  { id: 'nc-new-4', title: 'Full 30 Min Extreme Play 💦🫦', price: 1999, image: imgPinkDressFull, category: 'content', description: 'Uncut 30 min of pure pleasure. Stripping my pink dress, playing with my wet pussy, and eating my own cum just for you. 💦👅🫦', isNew: true, blur: true },
   { id: 'nc1', title: '30 Images & 2 Videos 📸🔥', price: 570, image: img30Images, category: 'content', description: 'Exclusive new bundle pack containing 30 photos and 2 videos. 🗝️💋' },
   { id: 'nc2', title: 'Playing with Toy 🍆🫦', price: 630, image: imgPlaying, category: 'content', description: 'Naughty solo play video using my favorite toy. 💦🧸' },
   { id: 'nc3', title: 'Stripping Black Dress 👗🖤', price: 560, image: imgStrippingBlackDress, category: 'content', description: 'Slow strip tease in a elegant black dress. 👠💃' },

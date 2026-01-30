@@ -11,6 +11,14 @@ interface PaymentModalProps {
 const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
   const [step, setStep] = useState<'details' | 'payment' | 'verifying' | 'failed'>('details');
   const [verificationProgress, setVerificationProgress] = useState(0);
+  const [selectedPrice, setSelectedPrice] = useState<number>(0);
+
+  useEffect(() => {
+    if (product) {
+      setSelectedPrice(product.price);
+      setStep('details');
+    }
+  }, [product]);
 
   if (!product) return null;
 
@@ -36,6 +44,8 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
     alert('Request submitted! I will reply under 2 hours.');
     onClose();
   };
+
+  const currentPrice = getDiscountedPrice(selectedPrice);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-neutral-900/60 backdrop-blur-xl animate-in fade-in duration-500">
@@ -67,10 +77,11 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
                 {product.category === 'call' ? '📞' : product.category === 'chat' ? '💬' : '🔥'}
               </div>
               <h3 className="text-xl font-bold text-neutral-900">{product.title}</h3>
+
               <div className="flex flex-col items-center">
-                <p className="text-2xl font-black text-rose-600">₹{getDiscountedPrice(product.price).toLocaleString()}</p>
+                <p className="text-2xl font-black text-rose-600">₹{currentPrice.toLocaleString()}</p>
                 {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
-                  <p className="text-sm text-neutral-400 line-through">₹{product.price.toLocaleString()}</p>
+                  <p className="text-sm text-neutral-400 line-through">₹{selectedPrice.toLocaleString()}</p>
                 )}
               </div>
             </div>
@@ -81,6 +92,24 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
                 {product.description || "Get instant access to this exclusive premium content. Experience the highest quality and personal attention from me."}
               </p>
             </div>
+
+            {product.priceOptions && product.priceOptions.length > 0 && (
+              <div className="space-y-3">
+                <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] px-2 text-center">Choose Your Package</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {product.priceOptions.map((opt, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSelectedPrice(opt.price)}
+                      className={`flex items-center justify-between p-4 rounded-2xl border-2 transition-all ${selectedPrice === opt.price ? 'border-rose-500 bg-rose-50 shadow-md scale-[1.02]' : 'border-rose-50 bg-white hover:border-rose-200'}`}
+                    >
+                      <span className={`font-bold ${selectedPrice === opt.price ? 'text-rose-600' : 'text-neutral-600'}`}>{opt.label}</span>
+                      <span className={`font-black ${selectedPrice === opt.price ? 'text-rose-500' : 'text-neutral-400'}`}>₹{getDiscountedPrice(opt.price).toLocaleString()}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <button
               onClick={handleBuy}
@@ -93,13 +122,16 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
 
         {step === 'payment' && (
           <div className="space-y-6 animate-in slide-in-from-right duration-300 text-center">
-            <h3 className="text-lg font-bold text-white">Scan to Pay</h3>
+            <h3 className="text-lg font-bold text-neutral-900">Scan to Pay</h3>
 
-            <div className="bg-white p-4 rounded-xl inline-block mx-auto mx-auto">
-              <img src={`https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa=kanikachauhan@airtel&pn=KanikaChauhan&am=${getDiscountedPrice(product.price)}&cu=INR`} alt="Payment QR" className="w-48 h-48 mix-blend-multiply" />
+            <div className="bg-white p-4 rounded-3xl inline-block mx-auto border-4 border-rose-50 shadow-xl shadow-rose-100">
+              <img src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=kanikachauhan@airtel&pn=KanikaChauhan&am=${currentPrice}&cu=INR`} alt="Payment QR" className="w-48 h-48 mix-blend-multiply" />
             </div>
 
-            <p className="text-neutral-400 text-sm">Scan with any UPI App<br />(GPay, PhonePe, Paytm)</p>
+            <div className="space-y-1">
+              <p className="text-neutral-900 font-bold">₹{currentPrice.toLocaleString()}</p>
+              <p className="text-neutral-400 text-[10px] font-black uppercase tracking-widest">Scan with GPay, PhonePe, or Paytm</p>
+            </div>
 
             <button
               onClick={handlePaid}
@@ -123,7 +155,7 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
               <p className="text-rose-600 text-sm font-bold italic">"Checking if you were naughty enough..." 😈</p>
             </div>
 
-            <div className="w-full bg-neutral-800 h-2 rounded-full overflow-hidden">
+            <div className="w-full bg-neutral-100 h-2 rounded-full overflow-hidden">
               <div className="bg-rose-500 h-full transition-all duration-100 ease-linear" style={{ width: `${verificationProgress}%` }}></div>
             </div>
           </div>

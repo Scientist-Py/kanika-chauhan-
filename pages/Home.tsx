@@ -84,53 +84,53 @@ const Home: React.FC = () => {
             {/* Hero Section - Redesigned for Professionalism */}
             <section className="relative pt-24 pb-12 flex flex-col items-center justify-center overflow-hidden bg-white">
                 {/* Text Content - Separate from Image */}
-                <div className="w-full max-w-2xl px-6 text-center space-y-8 mb-12 animate-in fade-in slide-in-from-top-4 duration-1000">
-                    <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-rose-50 border border-rose-100 text-rose-500 text-[10px] font-black uppercase tracking-[0.2em]">
-                            <span className="relative flex h-2 w-2">
+                <div className="w-full max-w-2xl px-6 text-center space-y-6 mb-8 animate-in fade-in slide-in-from-top-4 duration-1000">
+                    <div className="space-y-3">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-50 border border-rose-100 text-rose-500 text-[9px] font-black uppercase tracking-[0.2em]">
+                            <span className="relative flex h-1.5 w-1.5">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-rose-500"></span>
                             </span>
                             Official Personal App
                         </div>
 
-                        <h1 className="text-6xl md:text-8xl font-display italic text-neutral-900 leading-[1.1] drop-shadow-sm">
+                        <h1 className="text-4xl md:text-7xl font-display italic text-neutral-900 leading-[1.1] drop-shadow-sm">
                             Kanika <span className="text-rose-500 relative inline-block">
                                 Chauhan
-                                <span className="absolute -bottom-2 left-0 w-full h-1 bg-rose-200/50 rounded-full"></span>
+                                <span className="absolute -bottom-1 left-0 w-full h-0.5 bg-rose-200/50 rounded-full"></span>
                             </span>
                         </h1>
 
-                        <p className="text-neutral-500 text-lg md:text-2xl max-w-xl mx-auto font-medium leading-[1.6]">
-                            Experience my most intimate moments. Connect with me directly for 1-on-1 calls and exclusive daily updates.
+                        <p className="text-neutral-500 text-base md:text-xl max-w-sm mx-auto font-medium leading-[1.5]">
+                            Experience my most intimate moments. Connect with me directly for 1-on-1 calls and exclusive updates.
                         </p>
 
-                        <div className="inline-block px-6 py-3 bg-rose-500/10 rounded-2xl border border-rose-100/50 backdrop-blur-sm">
-                            <p className="text-rose-600 font-bold italic text-sm tracking-wide">
+                        <div className="inline-block px-4 py-2 bg-rose-500/10 rounded-xl border border-rose-100/50 backdrop-blur-sm">
+                            <p className="text-rose-600 font-bold italic text-[11px] tracking-wide">
                                 "Exclusive content you won't find anywhere else."
                             </p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
+                    <div className="grid grid-cols-2 gap-3 max-w-sm mx-auto">
                         <button
                             onClick={() => scrollToSection('services')}
-                            className="py-4 bg-neutral-900 text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-all shadow-xl shadow-neutral-200"
+                            className="py-3.5 bg-neutral-900 text-white rounded-xl font-black text-xs flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg"
                         >
-                            💬 CHAT ME
+                            💬 CHAT
                         </button>
                         <button
                             onClick={() => scrollToSection('services')}
-                            className="py-4 bg-rose-500 text-white rounded-2xl font-black text-sm flex items-center justify-center gap-2 active:scale-95 transition-all shadow-xl shadow-rose-200"
+                            className="py-3.5 bg-rose-500 text-white rounded-xl font-black text-xs flex items-center justify-center gap-2 active:scale-95 transition-all shadow-lg"
                         >
-                            📞 BOOK CALL
+                            📞 CALL
                         </button>
                     </div>
                 </div>
 
                 {/* Main Hero Image - Clean & Professional */}
-                <div className="w-full max-w-2xl px-4 animate-in fade-in zoom-in duration-1000 delay-300">
-                    <div className="relative aspect-[4/5] rounded-[4rem] overflow-hidden shadow-[0_32px_64px_-16px_rgba(244,63,94,0.2)] border-[12px] border-white ring-1 ring-rose-100 group">
+                <div className="w-full max-w-2xl px-6 animate-in fade-in zoom-in duration-1000 delay-300">
+                    <div className="relative aspect-[4/5] rounded-[3rem] overflow-hidden shadow-2xl border-[8px] border-white ring-1 ring-rose-100 group">
                         <img
                             src={heroImage}
                             alt="Kanika Chauhan"
@@ -183,22 +183,36 @@ const Home: React.FC = () => {
                             {newCollection.map((item) => (
                                 <div key={item.id} className="min-w-[220px] sm:min-w-[260px] snap-center py-4">
                                     <div className="relative aspect-[3/4.5] rounded-[2.5rem] overflow-hidden group border border-rose-100 ring-1 ring-rose-100 shadow-xl shadow-rose-200/20 hover:shadow-2xl hover:shadow-rose-300/30 hover:-translate-y-2 transition-all duration-500">
-                                        <img src={item.image} alt={item.title} className="w-full h-full object-cover blur-[1px] brightness-105 transition-all duration-700 group-hover:scale-110 group-hover:blur-0" />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-transparent to-transparent group-hover:from-white/100 transition-colors"></div>
+                                        <img
+                                            src={item.image}
+                                            alt={item.title}
+                                            className={`w-full h-full object-cover brightness-105 transition-all duration-700 group-hover:scale-110 ${item.blur ? 'blur-sm' : 'blur-[1px]'}`}
+                                        />
 
-                                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:opacity-0 transition-opacity duration-500">
-                                            <div className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center border border-white/50 text-2xl">🔒</div>
+                                        <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
+                                            {item.isNew && (
+                                                <div className="px-3 py-1 bg-red-600 text-white text-[10px] font-black rounded-full shadow-lg shadow-red-500/40 animate-pulse uppercase tracking-wider">
+                                                    NEWArrival
+                                                </div>
+                                            )}
+                                            {item.isHot && (
+                                                <div className="px-3 py-1 bg-amber-500 text-white text-[10px] font-black rounded-full shadow-lg shadow-amber-500/40 animate-bounce uppercase tracking-wider">
+                                                    🔥 HOT SELLING
+                                                </div>
+                                            )}
                                         </div>
 
-                                        <div className="absolute bottom-0 inset-x-0 p-6 space-y-4">
-                                            <div className="space-y-1">
-                                                <p className="text-neutral-900 font-bold text-lg leading-tight">{item.title}</p>
-                                                <div className="flex items-center gap-2">
-                                                    <p className="text-rose-500 font-black text-xl">₹{getDiscountedPrice(item.price).toLocaleString()}</p>
+                                        <div className="absolute inset-0 bg-gradient-to-t from-white/95 via-transparent to-transparent group-hover:from-white/100 transition-colors"></div>
+
+                                        <div className="absolute bottom-0 inset-x-0 p-5 space-y-3">
+                                            <div className="space-y-0.5">
+                                                <p className="text-neutral-900 font-bold text-base leading-tight line-clamp-1">{item.title}</p>
+                                                <div className="flex items-center gap-1.5">
+                                                    <p className="text-rose-500 font-black text-lg">₹{getDiscountedPrice(item.price).toLocaleString()}</p>
                                                     {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
                                                         <>
-                                                            <p className="text-neutral-400 text-sm line-through decoration-rose-400/50">₹{item.price.toLocaleString()}</p>
-                                                            <span className="text-[10px] font-black text-green-500 bg-green-50 px-2 py-0.5 rounded-full border border-green-100">
+                                                            <p className="text-neutral-400 text-[10px] line-through decoration-rose-400/50">₹{item.price.toLocaleString()}</p>
+                                                            <span className="text-[8px] font-black text-green-500 bg-green-50 px-1.5 py-0.5 rounded-full border border-green-100">
                                                                 -{getDiscountPercentage(item.price)}%
                                                             </span>
                                                         </>
@@ -207,9 +221,9 @@ const Home: React.FC = () => {
                                             </div>
                                             <button
                                                 onClick={() => handlePurchase(item)}
-                                                className="w-full py-4 bg-rose-500 text-white text-xs font-black rounded-2xl active:scale-95 transition-all shadow-lg shadow-rose-500/20 hover:bg-rose-600 hover:shadow-rose-500/40 uppercase tracking-widest"
+                                                className="w-full py-3.5 bg-rose-500 text-white text-[10px] font-black rounded-xl active:scale-95 transition-all shadow-lg shadow-rose-500/20 hover:bg-rose-600 hover:shadow-rose-500/40 uppercase tracking-widest"
                                             >
-                                                Unlock Secret
+                                                Unlock Now
                                             </button>
                                         </div>
                                     </div>
