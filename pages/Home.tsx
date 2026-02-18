@@ -112,7 +112,7 @@ const Home: React.FC = () => {
                                 {item.image ? (
                                     <img
                                         src={item.image}
-                                        className={`w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 ${item.blur ? 'blur-2xl opacity-40' : 'blur-md opacity-40'}`}
+                                        className={`w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 ${item.blur ? 'blur-md opacity-60' : 'blur-[2px] opacity-70'}`}
                                         alt={item.title}
                                     />
                                 ) : (
