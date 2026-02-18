@@ -48,14 +48,17 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
   const currentPrice = getDiscountedPrice(selectedPrice);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-neutral-900/60 backdrop-blur-xl animate-in fade-in duration-500">
-      <div className="w-full max-w-md bg-white rounded-t-[3rem] sm:rounded-[3rem] p-8 relative overflow-hidden border border-white/20 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] slide-in-from-bottom-[100%] duration-700">
-        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500"></div>
+    <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center bg-black/80 backdrop-blur-2xl animate-in fade-in duration-500 p-4">
+      <div className="w-full max-w-md glass rounded-[3rem] p-8 relative overflow-hidden border border-white/10 shadow-[0_32px_128px_-16px_rgba(212,175,55,0.15)] slide-in-from-bottom-[20px] duration-700">
+
+        {/* Top Accent Line */}
+        <div className="absolute top-0 inset-x-0 h-1 bg-gold-gradient opacity-60"></div>
+        <div className="absolute top-0 right-0 p-12 bg-premium-gold/5 rounded-full blur-3xl"></div>
 
         {step !== 'verifying' && (
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-rose-50 text-rose-500 z-10 hover:bg-rose-100 transition-colors"
+            className="absolute top-6 right-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-premium-gold border border-white/10 z-10 hover:bg-white/10 transition-all"
           >
             ✕
           </button>
@@ -64,131 +67,152 @@ const PaymentModal: React.FC<PaymentModalProps> = ({ product, onClose }) => {
         {step === 'payment' && (
           <button
             onClick={() => setStep('details')}
-            className="absolute top-4 left-4 w-8 h-8 flex items-center justify-center rounded-full bg-rose-50 text-rose-500 z-10 hover:bg-rose-100 transition-colors"
+            className="absolute top-6 left-6 w-10 h-10 flex items-center justify-center rounded-full bg-white/5 text-premium-gold border border-white/10 z-10 hover:bg-white/10 transition-all"
           >
             ←
           </button>
         )}
 
         {step === 'details' && (
-          <div className="space-y-6">
-            <div className="text-center space-y-2 pt-2">
-              <div className="w-16 h-16 mx-auto rounded-2xl bg-rose-500/20 flex items-center justify-center text-rose-400 text-3xl mb-4 ring-1 ring-rose-500/20 shadow-lg shadow-rose-500/10">
-                {product.category === 'call' ? '📞' : product.category === 'chat' ? '💬' : '🔥'}
+          <div className="space-y-8">
+            <div className="text-center space-y-4 pt-4">
+              <div className="w-20 h-20 mx-auto rounded-3xl bg-gold-gradient flex items-center justify-center text-black text-4xl mb-6 shadow-[0_10px_40px_rgba(212,175,55,0.3)] animate-float">
+                {product.category === 'call' ? '📞' : product.category === 'chat' ? '💬' : '⚜️'}
               </div>
-              <h3 className="text-xl font-bold text-neutral-900">{product.title}</h3>
+              <div className="space-y-1">
+                <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em]">Premium Access</p>
+                <h3 className="text-3xl font-display italic text-neutral-100">{product.title}</h3>
+              </div>
 
-              <div className="flex flex-col items-center">
-                <p className="text-2xl font-black text-rose-600">₹{currentPrice.toLocaleString()}</p>
+              <div className="flex flex-col items-center pt-2">
+                <p className="text-4xl font-black text-gradient-gold leading-none">₹{currentPrice.toLocaleString()}</p>
                 {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
-                  <p className="text-sm text-neutral-400 line-through">₹{selectedPrice.toLocaleString()}</p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-xs text-neutral-500 line-through">₹{selectedPrice.toLocaleString()}</span>
+                    <span className="text-[10px] font-bold text-green-500 bg-green-500/10 px-2 py-0.5 rounded-full border border-green-500/20">-{getDiscountPercentage(selectedPrice)}% OFF</span>
+                  </div>
                 )}
               </div>
             </div>
 
-            <div className="bg-rose-50/30 rounded-3xl p-6 border border-rose-100/50 backdrop-blur-sm">
-              <p className="text-[10px] font-black text-rose-500 uppercase tracking-[0.2em] mb-3">Item Description</p>
-              <p className="text-neutral-600 leading-relaxed font-medium">
-                {product.description || "Get instant access to this exclusive premium content. Experience the highest quality and personal attention from me."}
+            <div className="glass p-6 rounded-[2rem] border border-white/5 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gold-gradient opacity-0 group-hover:opacity-[0.03] transition-opacity"></div>
+              <p className="text-[9px] font-black text-premium-gold uppercase tracking-[0.2em] mb-4 flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full bg-premium-gold animate-pulse"></span>
+                Description
+              </p>
+              <p className="text-neutral-400 leading-relaxed text-sm font-medium">
+                {product.description || "Secure your exclusive access to this premium curated experience. Handled with absolute discretion and artistic excellence."}
               </p>
             </div>
 
             {product.priceOptions && product.priceOptions.length > 0 && (
-              <div className="space-y-3">
-                <p className="text-[10px] font-black text-neutral-400 uppercase tracking-[0.2em] px-2 text-center">Choose Your Package</p>
-                <div className="grid grid-cols-1 gap-2">
-                  {product.priceOptions.map((opt, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setSelectedPrice(opt.price)}
-                      className={`flex items-center justify-between p-4 rounded-2xl border-2 transition-all ${selectedPrice === opt.price ? 'border-rose-500 bg-rose-50 shadow-md scale-[1.02]' : 'border-rose-50 bg-white hover:border-rose-200'}`}
-                    >
-                      <span className={`font-bold ${selectedPrice === opt.price ? 'text-rose-600' : 'text-neutral-600'}`}>{opt.label}</span>
-                      <span className={`font-black ${selectedPrice === opt.price ? 'text-rose-500' : 'text-neutral-400'}`}>₹{getDiscountedPrice(opt.price).toLocaleString()}</span>
-                    </button>
-                  ))}
-                </div>
+              <div className="grid grid-cols-1 gap-3">
+                {product.priceOptions.map((opt, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setSelectedPrice(opt.price)}
+                    className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all group ${selectedPrice === opt.price ? 'border-premium-gold/50 bg-premium-gold/10 shadow-[0_8px_32px_rgba(212,175,55,0.1)]' : 'border-white/5 bg-white/[0.02] hover:border-white/20'}`}
+                  >
+                    <span className={`font-bold text-sm ${selectedPrice === opt.price ? 'text-white' : 'text-neutral-500'}`}>{opt.label}</span>
+                    <span className={`font-black ${selectedPrice === opt.price ? 'text-premium-gold' : 'text-neutral-400'}`}>₹{getDiscountedPrice(opt.price).toLocaleString()}</span>
+                  </button>
+                ))}
               </div>
             )}
 
             <button
               onClick={handleBuy}
-              className="w-full py-4 bg-rose-600 text-white font-black text-lg rounded-2xl hover:bg-rose-700 active:scale-95 transition-all shadow-xl shadow-rose-200"
+              className="w-full py-5 bg-gold-gradient text-black font-black text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-[0_20px_40px_rgba(212,175,55,0.2)] uppercase tracking-widest"
             >
-              PROCEED TO BUY
+              Secure Checkout
             </button>
           </div>
         )}
 
         {step === 'payment' && (
-          <div className="space-y-6 animate-in slide-in-from-right duration-300 text-center">
-            <h3 className="text-lg font-bold text-neutral-900">Scan to Pay</h3>
-
-            <div className="bg-white p-4 rounded-3xl inline-block mx-auto border-4 border-rose-50 shadow-xl shadow-rose-100">
-              <img src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=kanikachauhan@airtel&pn=KanikaChauhan&am=${currentPrice}&cu=INR`} alt="Payment QR" className="w-48 h-48 mix-blend-multiply" />
+          <div className="space-y-8 animate-in slide-in-from-right duration-500 text-center">
+            <div className="space-y-1">
+              <p className="text-[10px] font-black text-premium-gold uppercase tracking-[0.4em]">Payment Gateway</p>
+              <h3 className="text-2xl font-display italic">Complete Transaction</h3>
             </div>
 
-            <div className="space-y-1">
-              <p className="text-neutral-900 font-bold">₹{currentPrice.toLocaleString()}</p>
-              <p className="text-neutral-400 text-[10px] font-black uppercase tracking-widest">Scan with GPay, PhonePe, or Paytm</p>
+            <div className="relative group">
+              <div className="absolute -inset-4 bg-gold-gradient rounded-[3rem] blur-2xl opacity-10 group-hover:opacity-20 transition-opacity"></div>
+              <div className="bg-white p-6 rounded-[3rem] inline-block mx-auto relative z-10 shadow-2xl">
+                <img src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=kanikachauhan@airtel&pn=KanikaChauhan&am=${currentPrice}&cu=INR`} alt="Payment QR" className="w-56 h-56 mix-blend-multiply" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-3xl font-black text-gradient-gold">₹{currentPrice.toLocaleString()}</p>
+              <div className="flex items-center justify-center gap-4 text-[10px] font-black text-neutral-500 uppercase tracking-widest">
+                <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-green-500"></span> GPay</span>
+                <span>•</span>
+                <span>PhonePe</span>
+                <span>•</span>
+                <span>Paytm</span>
+              </div>
             </div>
 
             <button
               onClick={handlePaid}
-              className="w-full py-4 bg-rose-600 text-white font-bold text-lg rounded-2xl hover:bg-rose-700 active:scale-95 transition-all shadow-lg shadow-rose-500/20 animate-pulse"
+              className="w-full py-5 bg-gold-gradient text-black font-black text-sm rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl animate-shimmer-bg uppercase tracking-widest"
             >
-              I HAVE PAID
+              Confirm Payment
             </button>
+            <p className="text-[10px] text-neutral-500 font-medium">Auto-verification in progress after click.</p>
           </div>
         )}
 
         {step === 'verifying' && (
-          <div className="py-12 flex flex-col items-center justify-center space-y-6 text-center">
-            <div className="relative w-24 h-24 flex items-center justify-center">
-              <div className="absolute inset-0 border-4 border-rose-500/30 rounded-full"></div>
-              <div className="absolute inset-0 border-4 border-t-rose-500 rounded-full animate-spin"></div>
-              <span className="text-2xl animate-bounce">💋</span>
+          <div className="py-20 flex flex-col items-center justify-center space-y-8 text-center animate-in fade-in duration-700">
+            <div className="relative w-32 h-32 flex items-center justify-center">
+              <div className="absolute inset-0 border-[6px] border-premium-gold/10 rounded-full"></div>
+              <div className="absolute inset-0 border-[6px] border-t-premium-gold rounded-full animate-spin"></div>
+              <div className="absolute inset-4 bg-gold-gradient rounded-full opacity-10 blur-xl animate-pulse"></div>
+              <span className="text-5xl animate-bounce">⚜️</span>
             </div>
 
             <div className="space-y-2">
-              <h3 className="text-xl font-bold text-neutral-900 animate-pulse">Verifying Payment...</h3>
-              <p className="text-rose-600 text-sm font-bold italic">"Checking if you were naughty enough..." 😈</p>
+              <h3 className="text-2xl font-display italic text-gradient-gold">Authenticating...</h3>
+              <p className="text-neutral-500 text-sm font-medium tracking-wide">Securing your premium connection.</p>
             </div>
 
-            <div className="w-full bg-neutral-100 h-2 rounded-full overflow-hidden">
-              <div className="bg-rose-500 h-full transition-all duration-100 ease-linear" style={{ width: `${verificationProgress}%` }}></div>
+            <div className="w-full max-w-xs bg-white/5 h-1.5 rounded-full overflow-hidden border border-white/10">
+              <div className="bg-gold-gradient h-full transition-all duration-100 ease-linear shadow-[0_0_10px_rgba(212,175,55,0.5)]" style={{ width: `${verificationProgress}%` }}></div>
             </div>
           </div>
         )}
 
         {step === 'failed' && (
-          <div className="space-y-6 text-center animate-in zoom-in duration-300">
-            <div className="w-20 h-20 bg-red-500/20 text-red-500 rounded-full flex items-center justify-center text-4xl mx-auto ring-4 ring-red-500/10">
+          <div className="space-y-8 text-center animate-in zoom-in duration-500">
+            <div className="w-24 h-24 bg-red-500/10 text-red-500 rounded-3xl flex items-center justify-center text-5xl mx-auto border border-red-500/20 rotate-12">
               ✕
             </div>
 
-            <div className="space-y-1">
-              <h3 className="text-xl font-bold text-neutral-900">Payment Not Detected 😢</h3>
-              <p className="text-neutral-500 text-sm font-medium">We couldn't verify your payment automatically.</p>
+            <div className="space-y-2">
+              <h3 className="text-3xl font-display italic">Verification Pending</h3>
+              <p className="text-neutral-500 text-sm font-medium leading-relaxed">System couldn't verify automatically. Please provide your handle for manual clearance.</p>
             </div>
 
-            <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
+            <form onSubmit={handleFormSubmit} className="space-y-5 text-left pt-4">
               <div className="space-y-2">
-                <label className="text-xs text-rose-400 uppercase font-black">Your Name / Instagram ID</label>
-                <input required type="text" placeholder="@yourname" className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:outline-none focus:border-rose-500 font-medium" />
+                <label className="text-[10px] text-premium-gold uppercase font-black tracking-widest ml-1">Identity (Instagram/Twitter)</label>
+                <input required type="text" placeholder="@premium_user" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-premium-gold transition-all font-medium placeholder:text-neutral-600" />
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs text-rose-400 uppercase font-black">Transaction ID / Screenshot</label>
-                <input required type="text" placeholder="Enter Reference No." className="w-full bg-rose-50 border border-rose-100 rounded-xl p-3 text-neutral-900 focus:outline-none focus:border-rose-500 font-medium" />
+                <label className="text-[10px] text-premium-gold uppercase font-black tracking-widest ml-1">Payment Reference / UTR</label>
+                <input required type="text" placeholder="Transaction ID" className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white focus:outline-none focus:border-premium-gold transition-all font-medium placeholder:text-neutral-600" />
               </div>
 
-              <button type="submit" className="w-full py-4 bg-rose-600 text-white font-black rounded-2xl hover:bg-rose-700 transition-colors shadow-lg shadow-rose-200">
-                Submit for Manual Check
+              <button type="submit" className="w-full py-5 bg-gold-gradient text-black font-black rounded-2xl hover:scale-105 transition-all shadow-2xl uppercase tracking-widest text-sm">
+                Request Manual Clear
               </button>
             </form>
 
-            <p className="text-[10px] text-rose-400 font-bold uppercase tracking-wider">I will personally check and reply under 2 hours. ❤️</p>
+            <p className="text-[10px] text-neutral-500 font-bold uppercase tracking-widest">Personal approval typically under 120 minutes.</p>
           </div>
         )}
 

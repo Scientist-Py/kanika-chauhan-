@@ -1,11 +1,62 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { Product } from '../types';
+import { Product, Order, AdminStats } from '../types';
 import { MOST_UNLOCKED as INITIAL_MOST_UNLOCKED, NEW_COLLECTION as INITIAL_NEW_COLLECTION, SERVICES as INITIAL_SERVICES, EXCLUSIVES as INITIAL_EXCLUSIVES, VIP_SERVICES as INITIAL_VIP_SERVICES } from '../constants';
 
-
-
-
+const MOCK_ORDERS: Order[] = [
+    {
+        id: 'ord1',
+        customerName: 'Rahul Sharma',
+        customerPhone: '+91 98765 43210',
+        productId: 'nc-roleplay-1',
+        productTitle: 'Secretary & Boss Roleplay',
+        amount: 1899,
+        date: '2024-02-01 10:30',
+        status: 'completed',
+        customerTotalOrders: 5,
+        customerTotalLikes: 124,
+        isRepeated: true
+    },
+    {
+        id: 'ord2',
+        customerName: 'Amit Patel',
+        customerPhone: '+91 87654 32109',
+        productId: 'nc-new-1',
+        productTitle: 'Stripping Black Saree',
+        amount: 899,
+        date: '2024-02-01 11:15',
+        status: 'completed',
+        customerTotalOrders: 1,
+        customerTotalLikes: 45,
+        isRepeated: false
+    },
+    {
+        id: 'ord3',
+        customerName: 'Vikram Singh',
+        customerPhone: '+91 76543 21098',
+        productId: 'nc-new-4',
+        productTitle: 'Full 30 Min Extreme Play',
+        amount: 1999,
+        date: '2024-02-01 12:00',
+        status: 'completed',
+        customerTotalOrders: 12,
+        customerTotalLikes: 890,
+        isRepeated: true
+    },
+    {
+        id: 'ord4',
+        customerName: 'Sanjay Kumar',
+        customerPhone: '+91 65432 10987',
+        productId: 'ex4',
+        productTitle: 'Black Lace Bodysuit',
+        amount: 1299,
+        date: '2024-02-01 12:45',
+        status: 'completed',
+        customerTotalOrders: 3,
+        customerTotalLikes: 67,
+        isRepeated: true
+    }
+];
 
 interface AdminContextType {
     // Product Data
@@ -14,12 +65,12 @@ interface AdminContextType {
     services: Product[];
     exclusives: Product[];
     vipServices: Product[];
-
-
+    orders: Order[];
+    stats: AdminStats;
 
     addProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => void;
     deleteProduct: (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', id: string) => void;
-
+    addOrder: (order: Order) => void;
 }
 
 const AdminContext = createContext<AdminContextType | undefined>(undefined);
@@ -31,8 +82,16 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const [services, setServices] = useState<Product[]>(INITIAL_SERVICES);
     const [exclusives, setExclusives] = useState<Product[]>(INITIAL_EXCLUSIVES);
     const [vipServices, setVipServices] = useState<Product[]>(INITIAL_VIP_SERVICES);
+    const [orders, setOrders] = useState<Order[]>(MOCK_ORDERS);
 
-
+    // Boss Stats
+    const stats: AdminStats = {
+        totalOrdersToday: 890,
+        averageSalesPerDay: 890,
+        repeatedCustomerRate: 34.67,
+        mostSellingProduct: 'Secretary & Boss Roleplay',
+        totalRevenue: 154780
+    };
 
     // Load from local storage if available (mock persistence)
     useEffect(() => {
@@ -53,8 +112,7 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             if (parsed.services) setServices(mergeProducts(INITIAL_SERVICES, parsed.services));
             if (parsed.exclusives) setExclusives(mergeProducts(INITIAL_EXCLUSIVES, parsed.exclusives));
             if (parsed.vipServices) setVipServices(mergeProducts(INITIAL_VIP_SERVICES, parsed.vipServices));
-
-
+            if (parsed.orders) setOrders(parsed.orders);
         }
     }, []);
 
@@ -65,9 +123,10 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             newCollection,
             services,
             exclusives,
-            vipServices
+            vipServices,
+            orders
         }));
-    }, [mostUnlocked, newCollection, services, exclusives, vipServices]);
+    }, [mostUnlocked, newCollection, services, exclusives, vipServices, orders]);
 
     const addProduct = (section: 'mostUnlocked' | 'newCollection' | 'services' | 'exclusives' | 'vipServices', product: Product) => {
         switch (section) {
@@ -89,6 +148,10 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         }
     };
 
+    const addOrder = (order: Order) => {
+        setOrders(prev => [order, ...prev]);
+    };
+
     return (
         <AdminContext.Provider value={{
             mostUnlocked,
@@ -96,8 +159,11 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             services,
             exclusives,
             vipServices,
+            orders,
+            stats,
             addProduct,
-            deleteProduct
+            deleteProduct,
+            addOrder
         }}>
             {children}
         </AdminContext.Provider>

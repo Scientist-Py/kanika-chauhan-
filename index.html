@@ -1,26 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Kanika Chauhan Official</title>
+    <title>Kanika Chauhan | Official Premium Experience</title>
+    <meta name="description"
+        content="Welcome to the official premium platform of Kanika Chauhan. Connect directly via private calls, chat, and access exclusive content.">
+
+    <!-- Scripts & Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        premium: {
+                            gold: '#D4AF37',
+                            'gold-light': '#F9E498',
+                            dark: '#0A0A0B',
+                            card: 'rgba(20, 20, 22, 0.6)',
+                            border: 'rgba(212, 175, 55, 0.2)',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Playfair Display', 'serif'],
+                    },
+                    animation: {
+                        'shimmer': 'shimmer 2.s infinite linear',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shimmer: {
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap"
         rel="stylesheet">
+
+    <link rel="stylesheet" href="/index.css">
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #FFF5F7;
-            color: #1a1a1a;
-            -webkit-tap-highlight-color: transparent;
+        :root {
+            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 50%, #FBF5B7 55%, #AA771C 100%);
         }
 
-        .font-display {
-            font-family: 'Playfair Display', serif;
+        body {
+            background-color: #0A0A0B;
+            color: #ffffff;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .text-gradient-gold {
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gold-gradient {
+            background: var(--gold-gradient);
+        }
+
+        .glass {
+            background: rgba(20, 20, 22, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .glass-premium {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
 
         .hide-scrollbar::-webkit-scrollbar {
@@ -30,59 +99,6 @@
         .hide-scrollbar {
             -ms-overflow-style: none;
             scrollbar-width: none;
-        }
-
-        .premium-gradient {
-            background: linear-gradient(135deg, #ffffff 0%, #FFF5F7 100%);
-        }
-
-        .gold-glow {
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
-        }
-
-        .rose-glow {
-            box-shadow: 0 10px 30px rgba(244, 63, 94, 0.15);
-        }
-
-        .glass-light {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes zoomIn {
-            from {
-                opacity: 0;
-                transform: scale(0.95);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        @keyframes slideInUp {
-            from {
-                transform: translateY(20px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
         }
 
         @keyframes shimmer {
@@ -95,53 +111,25 @@
             }
         }
 
-        .animate-in {
-            animation-fill-mode: both;
-        }
-
-        .fade-in {
-            animation-name: fadeIn;
-        }
-
-        .zoom-in {
-            animation-name: zoomIn;
-        }
-
-        .slide-in-up {
-            animation-name: slideInUp;
-        }
-
-        .shimmer {
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
+        .animate-shimmer-bg {
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
             background-size: 200% 100%;
-            animation: shimmer 3s infinite;
-        }
-
-        .duration-500 {
-            animation-duration: 500ms;
-        }
-
-        .duration-700 {
-            animation-duration: 700ms;
-        }
-
-        .duration-1000 {
-            animation-duration: 1000ms;
+            animation: shimmer 3s infinite linear;
         }
     </style>
+
     <script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
-  }
-}
-</script>
-    <link rel="stylesheet" href="/index.css">
+    {
+      "imports": {
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+      }
+    }
+    </script>
 </head>
 
-<body>
+<body class="dark selection:bg-premium-gold/30">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

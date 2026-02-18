@@ -13,8 +13,24 @@ export interface Product {
   priceOptions?: { label: string; price: number }[];
 }
 
-export interface PaymentMethod {
+export interface Order {
   id: string;
-  name: string;
-  icon: string;
+  customerName: string;
+  customerPhone: string;
+  productId: string;
+  productTitle: string;
+  amount: number;
+  date: string;
+  status: 'pending' | 'completed' | 'failed';
+  customerTotalOrders: number;
+  customerTotalLikes: number;
+  isRepeated: boolean;
+}
+
+export interface AdminStats {
+  totalOrdersToday: number;
+  averageSalesPerDay: number;
+  repeatedCustomerRate: number;
+  mostSellingProduct: string;
+  totalRevenue: number;
 }
