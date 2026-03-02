@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -12,16 +12,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
                         premium: {
-                            gold: '#D4AF37',
-                            'gold-light': '#F9E498',
-                            dark: '#0A0A0B',
-                            card: 'rgba(20, 20, 22, 0.6)',
-                            border: 'rgba(212, 175, 55, 0.2)',
+                            gold: '#0d9488', /* Teal-600 used as main accent */
+                            'gold-light': '#5eead4', /* Teal-300 */
+                            dark: '#ffffff', /* White background */
+                            card: 'rgba(255, 255, 255, 0.95)',
+                            border: 'rgba(13, 148, 136, 0.2)',
+                            purple: '#9333ea', /* Purple-600 */
+                            'purple-light': '#d8b4fe',
                         }
                     },
                     fontFamily: {
@@ -29,7 +30,7 @@
                         display: ['Playfair Display', 'serif'],
                     },
                     animation: {
-                        'shimmer': 'shimmer 2.s infinite linear',
+                        'shimmer': 'shimmer 2.5s infinite linear',
                         'float': 'float 6s ease-in-out infinite',
                     },
                     keyframes: {
@@ -56,12 +57,12 @@
 
     <style>
         :root {
-            --gold-gradient: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 50%, #FBF5B7 55%, #AA771C 100%);
+            --gold-gradient: linear-gradient(135deg, #0d9488 0%, #2dd4bf 45%, #9333ea 50%, #c084fc 55%, #0d9488 100%);
         }
 
         body {
-            background-color: #0A0A0B;
-            color: #ffffff;
+            background-color: #f8fafc;
+            color: #0f172a;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
             font-family: 'Inter', sans-serif;
@@ -79,17 +80,18 @@
         }
 
         .glass {
-            background: rgba(20, 20, 22, 0.6);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(212, 175, 55, 0.1);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(13, 148, 136, 0.2);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
 
         .glass-premium {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(212, 175, 55, 0.2);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(13, 148, 136, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(13, 148, 136, 0.1);
         }
 
         .hide-scrollbar::-webkit-scrollbar {
@@ -112,7 +114,7 @@
         }
 
         .animate-shimmer-bg {
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.1), transparent);
             background-size: 200% 100%;
             animation: shimmer 3s infinite linear;
         }
@@ -129,7 +131,7 @@
     </script>
 </head>
 
-<body class="dark selection:bg-premium-gold/30">
+<body class="selection:bg-premium-gold/30">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
 </body>

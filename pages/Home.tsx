@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Product } from '../types';
 import { TRUST_ITEMS } from '../constants';
@@ -6,8 +5,6 @@ import { useAdmin } from '../context/AdminContext';
 import PaymentModal from '../components/PaymentModal';
 import RepublicDayPoster from '../components/RepublicDayPoster';
 import { IS_REPUBLIC_DAY_OFFER_ACTIVE, getDiscountedPrice } from '../utils';
-
-import heroImage from '../images/main.png';
 
 type CategoryType = 'new' | 'calls' | 'vip' | 'archives';
 
@@ -28,7 +25,6 @@ const Home: React.FC = () => {
         setSelectedProduct(p);
     };
 
-    // simplified selection logic
     const getFilteredProducts = () => {
         switch (activeCategory) {
             case 'new': return newCollection;
@@ -47,23 +43,23 @@ const Home: React.FC = () => {
     ];
 
     return (
-        <div className="min-h-screen bg-[#0A0A0B] text-white selection:bg-premium-gold/30">
+        <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-teal-500/30">
             {/* Minimal Ambient Effect */}
-            <div className="fixed inset-0 pointer-events-none z-0 opacity-20">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-96 bg-gradient-to-b from-premium-gold/10 to-transparent blur-[120px]"></div>
+            <div className="fixed inset-0 pointer-events-none z-0 opacity-40">
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-[500px] bg-gradient-to-b from-teal-500/10 via-purple-500/5 to-transparent blur-[120px]"></div>
             </div>
 
             {/* Ultra-Simple Top Bar */}
-            <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/95 py-4 border-b border-white/5 shadow-xl' : 'bg-transparent py-8'}`}>
+            <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 py-4 border-b border-black/5 shadow-sm backdrop-blur-md' : 'bg-transparent py-8'}`}>
                 <div className="max-w-xl mx-auto px-6 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full border border-premium-gold/20 overflow-hidden">
-                            <img src={heroImage} alt="Kanika" className="w-full h-full object-cover" />
+                        <div className="w-8 h-8 rounded-full border border-teal-500/20 bg-gradient-to-tr from-teal-500 to-purple-500 flex items-center justify-center shadow-lg">
+                            <span className="text-white font-bold text-xs font-display">KC</span>
                         </div>
-                        <span className="font-display italic text-lg text-gradient-gold">Kanika Chauhan</span>
+                        <span className="font-display italic text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-purple-600">Kanika Chauhan</span>
                     </div>
                     {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
-                        <div className="px-4 py-1.5 bg-gold-gradient rounded-full text-[9px] font-black text-black">
+                        <div className="px-4 py-1.5 bg-gradient-to-r from-teal-500 to-purple-500 rounded-full text-[9px] font-black text-white shadow-md shadow-teal-500/20">
                             LIMITED OFFER
                         </div>
                     )}
@@ -72,72 +68,78 @@ const Home: React.FC = () => {
 
             {/* Clean Hero */}
             <section className="relative pt-36 pb-12 px-6 z-10 text-center space-y-4">
-                <h2 className="text-4xl xs:text-5xl font-display italic leading-tight">Official <span className="text-gradient-gold">Selection</span></h2>
-                <p className="text-neutral-500 text-sm max-w-xs mx-auto font-medium">Choose your preferred experience from my official categories below.</p>
+                <h2 className="text-4xl xs:text-5xl font-display italic leading-tight text-slate-800">Premium <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-purple-500">Selection</span></h2>
+                <p className="text-slate-500 text-sm max-w-xs mx-auto font-medium">Choose your personal experience. Fast, private, and unforgettable.</p>
             </section>
 
             {/* High-Usability Category Nav */}
-            <nav className="sticky top-[73px] z-40 bg-black/80 backdrop-blur-2xl py-6 border-y border-white/5">
+            <nav className="sticky top-[73px] z-40 bg-white/90 backdrop-blur-2xl py-6 border-y border-black/5 shadow-sm">
                 <div className="max-w-xl mx-auto flex items-center justify-center gap-4 px-6 overflow-x-auto hide-scrollbar">
                     {categories.map((cat) => (
                         <button
                             key={cat.id}
                             onClick={() => setActiveCategory(cat.id)}
-                            className={`flex flex-col items-center gap-3 min-w-[70px] transition-all ${activeCategory === cat.id ? 'opacity-100 scale-105' : 'opacity-30 hover:opacity-50'}`}
+                            className={`flex flex-col items-center gap-3 min-w-[70px] transition-all ${activeCategory === cat.id ? 'opacity-100 scale-105' : 'opacity-50 hover:opacity-80'}`}
                         >
                             <span className="text-2xl">{cat.icon}</span>
-                            <span className={`text-[8px] font-black uppercase tracking-widest ${activeCategory === cat.id ? 'text-premium-gold' : 'text-white'}`}>{cat.label}</span>
+                            <span className={`text-[9px] font-bold uppercase tracking-widest ${activeCategory === cat.id ? 'text-teal-600' : 'text-slate-500'}`}>{cat.label}</span>
                         </button>
                     ))}
                 </div>
             </nav>
 
-            {/* Clean, Easy Selection Feed */}
+            {/* Clean, Easy Selection Feed without images */}
             <main className="relative z-10 max-w-xl mx-auto px-6 py-12 space-y-8">
-
                 {getFilteredProducts().map((item, idx) => (
                     <div
                         key={`${item.id}-${idx}`}
-                        className="group relative bg-[#0F0F11] rounded-[2.5rem] overflow-hidden border border-white/[0.05] transition-all duration-300 hover:border-premium-gold/30"
+                        className="group relative bg-white rounded-[2rem] overflow-hidden border border-slate-200 transition-all duration-300 hover:border-teal-400 shadow-md hover:shadow-xl hover:-translate-y-1"
                     >
                         {/* Status Tags */}
                         <div className="absolute top-6 left-6 z-20 flex gap-2">
-                            {item.isHot && <span className="bg-red-500 text-white text-[7px] font-black px-3 py-1.5 rounded-full shadow-lg">HOT</span>}
-                            {item.isNew && <span className="bg-premium-gold text-black text-[7px] font-black px-3 py-1.5 rounded-full shadow-lg">NEW</span>}
+                            {item.isHot && <span className="bg-red-500 text-white text-[8px] font-black px-3 py-1.5 rounded-full shadow-md">HOT</span>}
+                            {item.isNew && <span className="bg-teal-500 text-white text-[8px] font-black px-3 py-1.5 rounded-full shadow-md">NEW</span>}
                         </div>
 
-                        <div className="flex flex-col">
-                            {/* Visual Top */}
-                            <div className="relative aspect-[16/10] overflow-hidden bg-neutral-900">
-                                {item.image ? (
-                                    <img
-                                        src={item.image}
-                                        className={`w-full h-full object-cover transition-transform duration-[2000ms] group-hover:scale-105 ${item.blur ? 'blur-md opacity-60' : 'blur-[2px] opacity-70'}`}
-                                        alt={item.title}
-                                    />
-                                ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-4xl opacity-10">⚜️</div>
-                                )}
-                                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0F0F11] to-transparent"></div>
+                        {/* Text Only Content block */}
+                        <div className="p-8 pt-16 space-y-6">
+                            {/* Header Info */}
+                            <div className="space-y-4">
+                                <h3 className="text-2xl font-display font-medium italic text-slate-800 tracking-tight leading-snug">{item.title}</h3>
+
+                                <p className="text-slate-600 text-sm font-medium leading-relaxed italic border-l-4 border-purple-400 pl-4 py-1 bg-slate-50 rounded-r-xl shadow-inner">
+                                    "{item.description}"
+                                </p>
                             </div>
 
-                            {/* Content Bottom */}
-                            <div className="px-8 pb-8 pt-2 space-y-6">
-                                <div className="flex justify-between items-start gap-4">
-                                    <div className="space-y-2">
-                                        <h3 className="text-2xl font-display italic text-neutral-100">{item.title}</h3>
-                                        <p className="text-neutral-500 text-[11px] font-medium leading-relaxed line-clamp-2">{item.description}</p>
+                            {/* Tags / Meta Info */}
+                            <div className="flex flex-wrap items-center gap-3">
+                                {item.timing && (
+                                    <div className="flex items-center gap-1.5 bg-teal-50 text-teal-700 px-3 py-1.5 rounded-xl text-xs font-bold border border-teal-100">
+                                        ⏱️ {item.timing}
                                     </div>
-                                    <div className="text-right shrink-0">
-                                        <p className="text-2xl font-black text-gradient-gold">₹{getDiscountedPrice(item.price).toLocaleString()}</p>
+                                )}
+                                {item.ordersPerWeek && (
+                                    <div className="flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-red-100">
+                                        🔥 {item.ordersPerWeek} orders this week
                                     </div>
+                                )}
+                            </div>
+
+                            {/* Price & Action */}
+                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                                <div className="text-left">
+                                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Access Rate</p>
+                                    <p className="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-purple-600">
+                                        ₹{getDiscountedPrice(item.price).toLocaleString()}
+                                    </p>
                                 </div>
 
                                 <button
                                     onClick={() => handlePurchase(item)}
-                                    className="w-full py-5 bg-white text-black text-[10px] font-black uppercase tracking-[0.2em] rounded-2xl hover:bg-gold-gradient transition-all active:scale-[0.98] shadow-2xl"
+                                    className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-teal-500 to-purple-600 text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-[0.98] transition-all shadow-lg hover:shadow-teal-500/30"
                                 >
-                                    Unlock Now 💎
+                                    Get Access ⚡
                                 </button>
                             </div>
                         </div>
@@ -147,23 +149,23 @@ const Home: React.FC = () => {
                 {/* Simplified Trust Strip */}
                 <div className="pt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 px-2">
                     {TRUST_ITEMS.slice(0, 4).map((t, i) => (
-                        <div key={i} className="text-center space-y-2 py-4 border border-white/[0.03] rounded-[2rem] bg-white/[0.01]">
+                        <div key={i} className="text-center space-y-2 py-4 border border-slate-200 rounded-[2rem] bg-white shadow-sm">
                             <span className="text-xl block">{t.icon}</span>
-                            <p className="text-[7px] font-black text-neutral-600 uppercase tracking-widest leading-tight">{t.label}</p>
+                            <p className="text-[7px] font-black text-slate-500 uppercase tracking-widest leading-tight">{t.label}</p>
                         </div>
                     ))}
                 </div>
             </main>
 
             {/* Clean Footer */}
-            <footer className="mt-20 py-16 px-6 border-t border-white/5 bg-black/40 backdrop-blur-md text-center space-y-8">
-                <h2 className="text-2xl font-display italic text-gradient-gold opacity-40">Kanika Chauhan</h2>
-                <div className="flex items-center justify-center gap-6 text-[9px] font-black text-neutral-600 uppercase tracking-widest">
-                    <button className="hover:text-premium-gold transition-colors">Privacy</button>
-                    <button className="hover:text-premium-gold transition-colors">Digital Content</button>
-                    <button className="hover:text-premium-gold transition-colors">Contact</button>
+            <footer className="mt-20 py-16 px-6 border-t border-slate-200 bg-white/40 backdrop-blur-md text-center space-y-8">
+                <h2 className="text-2xl font-display italic font-bold text-slate-300">Kanika Chauhan</h2>
+                <div className="flex items-center justify-center gap-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">
+                    <button className="hover:text-teal-500 transition-colors">Privacy</button>
+                    <button className="hover:text-teal-500 transition-colors">Digital Content</button>
+                    <button className="hover:text-teal-500 transition-colors">Contact</button>
                 </div>
-                <p className="text-[7px] text-neutral-800 font-bold uppercase tracking-[0.4em]">© 2026 Privilege Group • Secure Access</p>
+                <p className="text-[7px] text-slate-400 font-bold uppercase tracking-[0.4em]">© 2026 Privilege Group • Secure Access</p>
             </footer>
 
             {/* Modals */}

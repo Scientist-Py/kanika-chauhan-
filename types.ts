@@ -11,6 +11,8 @@ export interface Product {
   blur?: boolean;
   isHot?: boolean;
   priceOptions?: { label: string; price: number }[];
+  timing?: string;
+  ordersPerWeek?: number;
 }
 
 export interface Order {

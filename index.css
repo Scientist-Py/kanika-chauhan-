@@ -4,34 +4,34 @@
 
 @layer base {
   body {
-    @apply bg-premium-dark text-white font-sans;
+    @apply bg-slate-50 text-slate-900 font-sans;
   }
 }
 
 @layer components {
   .btn-premium {
-    @apply relative px-8 py-4 bg-gold-gradient rounded-2xl font-black text-xs uppercase tracking-widest text-[#0A0A0B] shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-premium-gold/20 overflow-hidden;
+    @apply relative px-8 py-4 bg-gradient-to-r from-teal-500 to-purple-600 rounded-2xl font-black text-xs uppercase tracking-widest text-white shadow-lg shadow-teal-500/20 transition-all duration-300 hover:scale-105 active:scale-95 overflow-hidden;
   }
-  
+
   .btn-premium::after {
     content: '';
     @apply absolute top-0 -left-full w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent transition-all duration-500;
   }
-  
+
   .btn-premium:hover::after {
     @apply left-full;
   }
 
   .btn-outline {
-    @apply relative px-8 py-4 border border-premium-gold/30 rounded-2xl font-black text-xs uppercase tracking-widest text-premium-gold transition-all duration-300 hover:bg-premium-gold/5 active:scale-95;
+    @apply relative px-8 py-4 border border-teal-500/30 rounded-2xl font-black text-xs uppercase tracking-widest text-teal-600 transition-all duration-300 hover:bg-teal-50 active:scale-95;
   }
 
   .card-premium {
-    @apply glass-premium rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-premium-gold/5;
+    @apply glass rounded-[2.5rem] overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-teal-500/10 border border-slate-200;
   }
 
   .section-title {
-    @apply text-3xl font-display italic text-gradient-gold;
+    @apply text-3xl font-display italic font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-purple-600;
   }
 }
 
@@ -41,37 +41,27 @@
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-premium-dark;
+  @apply bg-slate-100;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-premium-gold/20 rounded-full hover:bg-premium-gold/40;
+  @apply bg-slate-300 rounded-full hover:bg-teal-400;
 }
 
 .font-display {
   font-family: 'Playfair Display', serif;
 }
 
-.text-gradient-gold {
-  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 50%, #FBF5B7 55%, #AA771C 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.bg-gold-gradient {
-  background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 45%, #B38728 50%, #FBF5B7 55%, #AA771C 100%);
-}
-
-.glass-morphism {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .animate-float {
