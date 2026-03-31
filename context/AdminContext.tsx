@@ -108,7 +108,8 @@ export const AdminProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             };
 
             if (parsed.mostUnlocked) setMostUnlocked(mergeProducts(INITIAL_MOST_UNLOCKED, parsed.mostUnlocked));
-            if (parsed.newCollection) setNewCollection(mergeProducts(INITIAL_NEW_COLLECTION, parsed.newCollection));
+            // Keep homepage "What's New" strictly aligned with curated defaults.
+            setNewCollection(INITIAL_NEW_COLLECTION);
             if (parsed.services) setServices(mergeProducts(INITIAL_SERVICES, parsed.services));
             if (parsed.exclusives) setExclusives(mergeProducts(INITIAL_EXCLUSIVES, parsed.exclusives));
             if (parsed.vipServices) setVipServices(mergeProducts(INITIAL_VIP_SERVICES, parsed.vipServices));

@@ -8,7 +8,6 @@
     <meta name="description"
         content="Welcome to the official premium platform of Kanika Chauhan. Connect directly via private calls, chat, and access exclusive content.">
 
-    <!-- Scripts & Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -16,22 +15,24 @@
                 extend: {
                     colors: {
                         premium: {
-                            gold: '#0d9488', /* Teal-600 used as main accent */
-                            'gold-light': '#5eead4', /* Teal-300 */
-                            dark: '#ffffff', /* White background */
-                            card: 'rgba(255, 255, 255, 0.95)',
-                            border: 'rgba(13, 148, 136, 0.2)',
-                            purple: '#9333ea', /* Purple-600 */
-                            'purple-light': '#d8b4fe',
+                            teal: '#14b8a6',
+                            'teal-light': '#5eead4',
+                            dark: '#050d14',
+                            card: 'rgba(10, 28, 46, 0.88)',
+                            border: 'rgba(56, 189, 248, 0.2)',
+                            blue: '#3b82f6',
+                            'blue-light': '#93c5fd',
                         }
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Sora', 'sans-serif'],
                         display: ['Playfair Display', 'serif'],
                     },
                     animation: {
                         'shimmer': 'shimmer 2.5s infinite linear',
-                        'float': 'float 6s ease-in-out infinite',
+                        'float': 'float 8s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
+                        'orb-drift': 'orb-drift 18s ease-in-out infinite',
                     },
                     keyframes: {
                         shimmer: {
@@ -39,7 +40,18 @@
                         },
                         float: {
                             '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-10px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: '0.5', transform: 'scale(1)' },
+                            '50%': { opacity: '1', transform: 'scale(1.08)' },
+                        },
+                        'orb-drift': {
+                            '0%': { transform: 'translate(0, 0) scale(1)' },
+                            '25%': { transform: 'translate(30px, -20px) scale(1.05)' },
+                            '50%': { transform: 'translate(60px, 10px) scale(0.97)' },
+                            '75%': { transform: 'translate(20px, 30px) scale(1.03)' },
+                            '100%': { transform: 'translate(0, 0) scale(1)' },
                         }
                     }
                 }
@@ -50,22 +62,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Sora:wght@300;400;500;600;700;800&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="/index.css">
 
     <style>
         :root {
-            --gold-gradient: linear-gradient(135deg, #0d9488 0%, #2dd4bf 45%, #9333ea 50%, #c084fc 55%, #0d9488 100%);
+            --gold-gradient: linear-gradient(135deg, #fb7185 0%, #f9a8d4 45%, #e879f9 100%);
         }
 
         body {
-            background-color: #f8fafc;
-            color: #0f172a;
+            background-color: #0d0509;
+            color: #fce7f3;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
-            font-family: 'Inter', sans-serif;
         }
 
         .text-gradient-gold {
@@ -75,46 +86,18 @@
             -webkit-text-fill-color: transparent;
         }
 
-        .bg-gold-gradient {
-            background: var(--gold-gradient);
-        }
+        .bg-gold-gradient { background: var(--gold-gradient); }
 
-        .glass {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(13, 148, 136, 0.2);
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
-        }
-
-        .glass-premium {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.8) 100%);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(13, 148, 136, 0.3);
-            box-shadow: 0 8px 32px 0 rgba(13, 148, 136, 0.1);
-        }
-
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
         @keyframes shimmer {
-            0% {
-                background-position: -200% 0;
-            }
-
-            100% {
-                background-position: 200% 0;
-            }
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
         }
 
         .animate-shimmer-bg {
-            background: linear-gradient(90deg, transparent, rgba(13, 148, 136, 0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(244, 114, 182, 0.16), transparent);
             background-size: 200% 100%;
             animation: shimmer 3s infinite linear;
         }

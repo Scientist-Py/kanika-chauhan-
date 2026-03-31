@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Product } from '../types';
 import { TRUST_ITEMS } from '../constants';
 import { useAdmin } from '../context/AdminContext';
@@ -6,173 +6,464 @@ import PaymentModal from '../components/PaymentModal';
 import RepublicDayPoster from '../components/RepublicDayPoster';
 import { IS_REPUBLIC_DAY_OFFER_ACTIVE, getDiscountedPrice } from '../utils';
 
-type CategoryType = 'new' | 'calls' | 'vip' | 'archives';
+type CategoryType = 'new' | 'vip';
+
+const TRUST_ICONS: Record<string, string> = {
+    'Lock': '🔒', 'Card': '💳', 'Shield': '🛡️', 'Privacy': '👁️', 'Direct': '⚡',
+};
+
+/* ── Teal/Blue/White CSS variables ── */
+const C = {
+    bg: '#050d14',
+    deep: '#071525',
+    card: 'rgba(10,30,46,0.88)',
+    cardHover: 'rgba(14,38,58,0.92)',
+    border: 'rgba(56,189,248,0.16)',
+    borderHover: 'rgba(20,184,166,0.4)',
+    teal: '#14b8a6',
+    tealLight: '#5eead4',
+    blue: '#3b82f6',
+    blueLight: '#93c5fd',
+    indigo: '#6366f1',
+    white: '#f0f9ff',
+    text: '#e0f2fe',
+    muted: 'rgba(186,230,253,0.6)',
+    dim: 'rgba(186,230,253,0.38)',
+};
 
 const Home: React.FC = () => {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-    const [scrolled, setScrolled] = useState(false);
     const [activeCategory, setActiveCategory] = useState<CategoryType>('new');
+    const { newCollection, vipServices } = useAdmin();
 
-    const { mostUnlocked, newCollection, services, exclusives, vipServices } = useAdmin();
+    const products = useMemo(() => {
+        return activeCategory === 'vip' ? vipServices : newCollection;
+    }, [activeCategory, newCollection, vipServices]);
 
-    useEffect(() => {
-        const handleScroll = () => setScrolled(window.scrollY > 20);
-        window.addEventListener('scroll', handleScroll);
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    const handlePurchase = (p: Product) => {
-        setSelectedProduct(p);
-    };
-
-    const getFilteredProducts = () => {
-        switch (activeCategory) {
-            case 'new': return newCollection;
-            case 'calls': return services;
-            case 'vip': return vipServices;
-            case 'archives': return [...exclusives, ...mostUnlocked];
-            default: return newCollection;
-        }
-    };
-
-    const categories: { id: CategoryType; label: string; icon: string }[] = [
-        { id: 'new', label: "What's New", icon: '✨' },
-        { id: 'calls', label: 'Video Calls', icon: '📹' },
-        { id: 'vip', label: 'VIP Club', icon: '👑' },
-        { id: 'archives', label: 'The Vault', icon: '💎' },
+    const categories: { id: CategoryType; label: string; subtitle: string }[] = [
+        { id: 'new', label: "What's New", subtitle: 'Fresh Drops' },
+        { id: 'vip', label: 'VIP Club', subtitle: 'Inner Circle' },
     ];
 
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-900 selection:bg-teal-500/30">
-            {/* Minimal Ambient Effect */}
-            <div className="fixed inset-0 pointer-events-none z-0 opacity-40">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-[500px] bg-gradient-to-b from-teal-500/10 via-purple-500/5 to-transparent blur-[120px]"></div>
+        <div style={{ minHeight: '100vh', background: C.bg, color: C.text }}>
+
+            {/* ── Background ── */}
+            <div style={{ position: 'fixed', inset: 0, zIndex: -1, overflow: 'hidden', pointerEvents: 'none' }}>
+                {/* Base */}
+                <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 15% 25%, rgba(20,184,166,0.13) 0%, transparent 50%), radial-gradient(ellipse at 85% 15%, rgba(59,130,246,0.12) 0%, transparent 45%), radial-gradient(ellipse at 50% 90%, rgba(99,102,241,0.1) 0%, transparent 50%), ${C.bg}` }} />
+
+                {/* Grid dots */}
+                <div style={{
+                    position: 'absolute', inset: 0,
+                    backgroundImage: 'radial-gradient(circle, rgba(56,189,248,0.07) 1px, transparent 1px)',
+                    backgroundSize: '30px 30px',
+                }} />
+
+                {/* Corner accent lines */}
+                <div style={{
+                    position: 'absolute', top: 0, left: 0, width: '35%', height: '1px',
+                    background: 'linear-gradient(90deg, rgba(20,184,166,0.6), transparent)',
+                }} />
+                <div style={{
+                    position: 'absolute', top: 0, right: 0, width: '35%', height: '1px',
+                    background: 'linear-gradient(270deg, rgba(59,130,246,0.6), transparent)',
+                }} />
+
+                {/* Floating orbs */}
+                <div className="orb-drift" style={{
+                    position: 'absolute', left: '-100px', top: '10%',
+                    width: '500px', height: '500px', borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(20,184,166,0.14) 0%, transparent 70%)',
+                    filter: 'blur(40px)',
+                }} />
+                <div className="orb-drift-rev" style={{
+                    position: 'absolute', right: '-120px', top: '20%',
+                    width: '560px', height: '560px', borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(59,130,246,0.13) 0%, transparent 70%)',
+                    filter: 'blur(50px)',
+                }} />
+                <div className="float" style={{
+                    position: 'absolute', bottom: '-60px', left: '30%',
+                    width: '600px', height: '400px', borderRadius: '50%',
+                    background: 'radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%)',
+                    filter: 'blur(60px)',
+                }} />
             </div>
 
-            {/* Ultra-Simple Top Bar */}
-            <header className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/95 py-4 border-b border-black/5 shadow-sm backdrop-blur-md' : 'bg-transparent py-8'}`}>
-                <div className="max-w-xl mx-auto px-6 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-full border border-teal-500/20 bg-gradient-to-tr from-teal-500 to-purple-500 flex items-center justify-center shadow-lg">
-                            <span className="text-white font-bold text-xs font-display">KC</span>
+            {/* ── Header ── */}
+            <header style={{
+                position: 'sticky', top: 0, zIndex: 50,
+                borderBottom: '1px solid rgba(56,189,248,0.1)',
+                background: 'rgba(5,13,20,0.82)',
+                backdropFilter: 'blur(24px)',
+                WebkitBackdropFilter: 'blur(24px)',
+            }}>
+                <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '14px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                        {/* Logo mark */}
+                        <div style={{
+                            width: '44px', height: '44px', borderRadius: '12px',
+                            background: 'linear-gradient(135deg, rgba(20,184,166,0.25) 0%, rgba(59,130,246,0.2) 100%)',
+                            border: '1px solid rgba(94,234,212,0.35)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            boxShadow: '0 0 20px rgba(20,184,166,0.2), inset 0 1px 0 rgba(255,255,255,0.1)',
+                        }}>
+                            <span style={{
+                                fontFamily: "'Playfair Display', serif",
+                                fontSize: '13px', fontWeight: 700,
+                                letterSpacing: '0.1em',
+                                background: 'linear-gradient(135deg, #5eead4, #93c5fd)',
+                                WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                            }}>KC</span>
                         </div>
-                        <span className="font-display italic text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-purple-600">Kanika Chauhan</span>
+                        <div>
+                            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '20px', fontWeight: 700, color: '#f0f9ff', lineHeight: 1.1 }}>
+                                Kanika Chauhan
+                            </p>
+                            <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.3em', textTransform: 'uppercase', color: C.dim, marginTop: '2px' }}>
+                                Official Private Room
+                            </p>
+                        </div>
                     </div>
-                    {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
-                        <div className="px-4 py-1.5 bg-gradient-to-r from-teal-500 to-purple-500 rounded-full text-[9px] font-black text-white shadow-md shadow-teal-500/20">
-                            LIMITED OFFER
-                        </div>
-                    )}
+
+                    {/* Verified */}
+                    <div className="verified-badge" style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        padding: '7px 18px', borderRadius: '999px',
+                        background: 'rgba(20,184,166,0.1)',
+                        border: '1px solid rgba(20,184,166,0.3)',
+                    }}>
+                        <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: C.teal, boxShadow: '0 0 8px rgba(20,184,166,0.9)', display: 'inline-block', flexShrink: 0 }} />
+                        <span style={{ fontSize: '9px', fontWeight: 800, letterSpacing: '0.26em', textTransform: 'uppercase', color: C.tealLight }}>Verified</span>
+                    </div>
                 </div>
             </header>
 
-            {/* Clean Hero */}
-            <section className="relative pt-36 pb-12 px-6 z-10 text-center space-y-4">
-                <h2 className="text-4xl xs:text-5xl font-display italic leading-tight text-slate-800">Premium <span className="bg-clip-text text-transparent bg-gradient-to-r from-teal-500 to-purple-500">Selection</span></h2>
-                <p className="text-slate-500 text-sm max-w-xs mx-auto font-medium">Choose your personal experience. Fast, private, and unforgettable.</p>
-            </section>
+            {/* ── Hero ── */}
+            <section style={{ maxWidth: '1280px', margin: '0 auto', padding: '40px 32px 20px' }}>
+                <div className="grid-overlay" style={{
+                    borderRadius: '28px',
+                    border: '1px solid rgba(56,189,248,0.18)',
+                    background: 'linear-gradient(135deg, rgba(10,28,44,0.97) 0%, rgba(7,21,37,0.94) 60%, rgba(12,30,48,0.96) 100%)',
+                    boxShadow: '0 40px 100px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06), 0 0 0 1px rgba(0,0,0,0.2)',
+                    padding: '48px',
+                    position: 'relative',
+                    overflow: 'hidden',
+                }}>
+                    {/* Accent glows inside hero */}
+                    <div style={{ position: 'absolute', top: '-40px', right: '-40px', width: '300px', height: '300px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(59,130,246,0.14) 0%, transparent 70%)', filter: 'blur(40px)', pointerEvents: 'none' }} />
+                    <div style={{ position: 'absolute', bottom: '-40px', left: '-40px', width: '280px', height: '280px', borderRadius: '50%', background: 'radial-gradient(circle, rgba(20,184,166,0.14) 0%, transparent 70%)', filter: 'blur(40px)', pointerEvents: 'none' }} />
 
-            {/* High-Usability Category Nav */}
-            <nav className="sticky top-[73px] z-40 bg-white/90 backdrop-blur-2xl py-6 border-y border-black/5 shadow-sm">
-                <div className="max-w-xl mx-auto flex items-center justify-center gap-4 px-6 overflow-x-auto hide-scrollbar">
-                    {categories.map((cat) => (
-                        <button
-                            key={cat.id}
-                            onClick={() => setActiveCategory(cat.id)}
-                            className={`flex flex-col items-center gap-3 min-w-[70px] transition-all ${activeCategory === cat.id ? 'opacity-100 scale-105' : 'opacity-50 hover:opacity-80'}`}
-                        >
-                            <span className="text-2xl">{cat.icon}</span>
-                            <span className={`text-[9px] font-bold uppercase tracking-widest ${activeCategory === cat.id ? 'text-teal-600' : 'text-slate-500'}`}>{cat.label}</span>
-                        </button>
-                    ))}
-                </div>
-            </nav>
+                    {/* Top edge accent */}
+                    <div style={{ position: 'absolute', top: 0, left: '20%', right: '20%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(20,184,166,0.6), rgba(59,130,246,0.5), transparent)' }} />
 
-            {/* Clean, Easy Selection Feed without images */}
-            <main className="relative z-10 max-w-xl mx-auto px-6 py-12 space-y-8">
-                {getFilteredProducts().map((item, idx) => (
-                    <div
-                        key={`${item.id}-${idx}`}
-                        className="group relative bg-white rounded-[2rem] overflow-hidden border border-slate-200 transition-all duration-300 hover:border-teal-400 shadow-md hover:shadow-xl hover:-translate-y-1"
-                    >
-                        {/* Status Tags */}
-                        <div className="absolute top-6 left-6 z-20 flex gap-2">
-                            {item.isHot && <span className="bg-red-500 text-white text-[8px] font-black px-3 py-1.5 rounded-full shadow-md">HOT</span>}
-                            {item.isNew && <span className="bg-teal-500 text-white text-[8px] font-black px-3 py-1.5 rounded-full shadow-md">NEW</span>}
+                    <div style={{ position: 'relative', zIndex: 1, display: 'grid', alignItems: 'center', gap: '40px', gridTemplateColumns: 'repeat(auto-fit, minmax(280px,1fr))' }}>
+                        {/* Left */}
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                                <span style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                                    padding: '6px 16px', borderRadius: '999px',
+                                    background: 'rgba(20,184,166,0.12)',
+                                    border: '1px solid rgba(20,184,166,0.3)',
+                                    fontSize: '9px', fontWeight: 800, letterSpacing: '0.3em', textTransform: 'uppercase',
+                                    color: C.tealLight,
+                                }}>
+                                    <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: C.teal, boxShadow: '0 0 6px rgba(20,184,166,0.9)', display: 'inline-block' }} />
+                                    Intimacy Collection
+                                </span>
+                                {IS_REPUBLIC_DAY_OFFER_ACTIVE() && (
+                                    <span style={{
+                                        padding: '6px 14px', borderRadius: '999px',
+                                        background: 'rgba(59,130,246,0.15)',
+                                        border: '1px solid rgba(59,130,246,0.3)',
+                                        fontSize: '9px', fontWeight: 800, letterSpacing: '0.24em', textTransform: 'uppercase',
+                                        color: C.blueLight,
+                                    }}>✦ Limited Offer Active</span>
+                                )}
+                            </div>
+
+                            <h1 style={{
+                                fontFamily: "'Playfair Display', serif",
+                                fontSize: 'clamp(2.1rem,5vw,3.7rem)',
+                                fontWeight: 700, lineHeight: 1.2,
+                                color: '#f0f9ff', letterSpacing: '-0.01em', margin: 0,
+                            }}>
+                                Bold, beautiful{' '}
+                                <em style={{
+                                    fontStyle: 'italic',
+                                    background: 'linear-gradient(135deg, #5eead4 0%, #38bdf8 50%, #818cf8 100%)',
+                                    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                                }}>and deeply private</em>{' '}
+                                premium access.
+                            </h1>
+
+                            <p style={{ fontSize: '15px', lineHeight: 1.8, color: C.muted, maxWidth: '480px', margin: 0 }}>
+                                A fully curated space with rich visuals, secure flow, and direct access. Choose your vibe and unlock instantly.
+                            </p>
+
+                            {/* Teal line accent */}
+                            <div style={{ width: '100px', height: '2px', background: 'linear-gradient(90deg, #14b8a6, transparent)', borderRadius: '999px' }} />
                         </div>
 
-                        {/* Text Only Content block */}
-                        <div className="p-8 pt-16 space-y-6">
-                            {/* Header Info */}
-                            <div className="space-y-4">
-                                <h3 className="text-2xl font-display font-medium italic text-slate-800 tracking-tight leading-snug">{item.title}</h3>
-
-                                <p className="text-slate-600 text-sm font-medium leading-relaxed italic border-l-4 border-purple-400 pl-4 py-1 bg-slate-50 rounded-r-xl shadow-inner">
-                                    "{item.description}"
-                                </p>
-                            </div>
-
-                            {/* Tags / Meta Info */}
-                            <div className="flex flex-wrap items-center gap-3">
-                                {item.timing && (
-                                    <div className="flex items-center gap-1.5 bg-teal-50 text-teal-700 px-3 py-1.5 rounded-xl text-xs font-bold border border-teal-100">
-                                        ⏱️ {item.timing}
-                                    </div>
-                                )}
-                                {item.ordersPerWeek && (
-                                    <div className="flex items-center gap-1.5 bg-red-50 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold border border-red-100">
-                                        🔥 {item.ordersPerWeek} orders this week
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Price & Action */}
-                            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-slate-100">
-                                <div className="text-left">
-                                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Access Rate</p>
-                                    <p className="text-3xl font-black bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-purple-600">
-                                        ₹{getDiscountedPrice(item.price).toLocaleString()}
-                                    </p>
-                                </div>
-
-                                <button
-                                    onClick={() => handlePurchase(item)}
-                                    className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-teal-500 to-purple-600 text-white text-xs font-black uppercase tracking-[0.2em] rounded-2xl hover:scale-105 active:scale-[0.98] transition-all shadow-lg hover:shadow-teal-500/30"
+                        {/* Right stat grid */}
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                            {[
+                                { label: 'Experience', value: 'Sensual', icon: '✨' },
+                                { label: 'Privacy', value: 'Protected', icon: '🔒' },
+                                { label: 'Style', value: 'Luxury', icon: '💎' },
+                                { label: 'Support', value: 'Direct', icon: '⚡' },
+                            ].map((stat) => (
+                                <div key={stat.label} style={{
+                                    padding: '18px',
+                                    borderRadius: '16px',
+                                    background: 'rgba(255,255,255,0.04)',
+                                    border: '1px solid rgba(56,189,248,0.13)',
+                                    backdropFilter: 'blur(10px)',
+                                    transition: 'all 0.3s ease',
+                                }}
+                                    onMouseEnter={e => {
+                                        (e.currentTarget as HTMLElement).style.background = 'rgba(20,184,166,0.08)';
+                                        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(20,184,166,0.3)';
+                                    }}
+                                    onMouseLeave={e => {
+                                        (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)';
+                                        (e.currentTarget as HTMLElement).style.borderColor = 'rgba(56,189,248,0.13)';
+                                    }}
                                 >
-                                    Get Access ⚡
-                                </button>
-                            </div>
+                                    <span style={{ fontSize: '18px', display: 'block', marginBottom: '8px' }}>{stat.icon}</span>
+                                    <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.dim, margin: 0 }}>{stat.label}</p>
+                                    <p style={{ marginTop: '5px', fontFamily: "'Playfair Display', serif", fontSize: '19px', fontWeight: 700, color: '#f0f9ff', margin: '5px 0 0' }}>{stat.value}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
-                ))}
+                </div>
 
-                {/* Simplified Trust Strip */}
-                <div className="pt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 px-2">
-                    {TRUST_ITEMS.slice(0, 4).map((t, i) => (
-                        <div key={i} className="text-center space-y-2 py-4 border border-slate-200 rounded-[2rem] bg-white shadow-sm">
-                            <span className="text-xl block">{t.icon}</span>
-                            <p className="text-[7px] font-black text-slate-500 uppercase tracking-widest leading-tight">{t.label}</p>
+                {/* ── Category Nav ── */}
+                <nav style={{
+                    marginTop: '14px',
+                    display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px',
+                    padding: '10px',
+                    borderRadius: '20px',
+                    background: 'rgba(7,21,37,0.78)',
+                    border: '1px solid rgba(56,189,248,0.1)',
+                    backdropFilter: 'blur(16px)',
+                }}>
+                    {categories.map((cat) => {
+                        const isActive = activeCategory === cat.id;
+                        return (
+                            <button
+                                key={cat.id}
+                                onClick={() => setActiveCategory(cat.id)}
+                                style={{
+                                    borderRadius: '14px', padding: '16px 20px', textAlign: 'left',
+                                    border: '1px solid',
+                                    transition: 'all 0.3s cubic-bezier(0.34,1.56,0.64,1)',
+                                    cursor: 'pointer',
+                                    background: isActive
+                                        ? 'linear-gradient(135deg, rgba(20,184,166,0.2) 0%, rgba(59,130,246,0.14) 100%)'
+                                        : 'rgba(255,255,255,0)',
+                                    borderColor: isActive ? 'rgba(20,184,166,0.45)' : 'rgba(56,189,248,0.1)',
+                                    boxShadow: isActive ? '0 8px 28px rgba(20,184,166,0.18), inset 0 1px 0 rgba(255,255,255,0.07)' : 'none',
+                                    transform: isActive ? 'translateY(-1px)' : 'none',
+                                }}
+                            >
+                                <p style={{ fontSize: '14px', fontWeight: 700, color: isActive ? C.tealLight : '#f0f9ff', margin: 0 }}>{cat.label}</p>
+                                <p style={{ marginTop: '3px', fontSize: '10px', fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: isActive ? 'rgba(94,234,212,0.75)' : C.dim, margin: '3px 0 0' }}>
+                                    {cat.subtitle}
+                                </p>
+                            </button>
+                        );
+                    })}
+                </nav>
+            </section>
+
+            {/* ── Main Content ── */}
+            <main style={{ maxWidth: '1280px', margin: '0 auto', padding: '24px 32px 80px', display: 'grid', gap: '28px', gridTemplateColumns: '1fr' }}>
+                <div style={{ display: 'grid', gap: '28px', gridTemplateColumns: 'repeat(auto-fit,minmax(600px,1fr))' }}>
+
+                    {/* ── Products ── */}
+                    <section style={{ display: 'grid', gap: '16px', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))' }}>
+                        {products.map((item, idx) => (
+                            <article
+                                key={`${item.id}-${idx}`}
+                                className="card-hover"
+                                style={{
+                                    borderRadius: '24px',
+                                    border: '1px solid rgba(56,189,248,0.14)',
+                                    background: 'linear-gradient(145deg, rgba(10,28,44,0.95) 0%, rgba(7,19,32,0.9) 100%)',
+                                    boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                                    padding: '26px',
+                                    position: 'relative', overflow: 'hidden',
+                                }}
+                            >
+                                {/* Card inner gradient accent */}
+                                <div style={{ position: 'absolute', top: 0, right: 0, width: '55%', height: '45%', background: 'radial-gradient(ellipse at 80% 20%, rgba(59,130,246,0.07) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                                <div style={{ position: 'absolute', top: 0, left: '25%', right: '25%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(20,184,166,0.35), transparent)' }} />
+
+                                {/* Badges */}
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
+                                    {item.isHot && <span className="badge-hot" style={{ padding: '4px 10px', borderRadius: '999px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase' }}>🔥 Hot</span>}
+                                    {item.isNew && <span className="badge-new" style={{ padding: '4px 10px', borderRadius: '999px', fontSize: '9px', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase' }}>✦ New</span>}
+                                    {item.timing && (
+                                        <span style={{ padding: '4px 10px', borderRadius: '999px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(56,189,248,0.16)', fontSize: '9px', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: C.dim }}>
+                                            ⏱ {item.timing}
+                                        </span>
+                                    )}
+                                </div>
+
+                                {/* Title & desc */}
+                                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '21px', fontWeight: 700, lineHeight: 1.3, color: '#f0f9ff', margin: '0 0 10px', letterSpacing: '-0.01em' }}>
+                                    {item.title}
+                                </h3>
+                                <p style={{ fontSize: '13.5px', lineHeight: 1.7, color: C.muted, margin: 0 }}>{item.description}</p>
+
+                                {/* Price */}
+                                <div style={{ marginTop: '20px', paddingTop: '18px', borderTop: '1px solid rgba(56,189,248,0.1)' }}>
+                                    <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: C.dim, margin: '0 0 6px' }}>Access Rate</p>
+                                    <p className="price-glow" style={{
+                                        fontFamily: "'Playfair Display', serif",
+                                        fontSize: '28px', fontWeight: 700, margin: '0 0 14px',
+                                        background: 'linear-gradient(135deg, #5eead4 0%, #38bdf8 60%, #818cf8 100%)',
+                                        WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
+                                    }}>
+                                        ₹{getDiscountedPrice(item.price).toLocaleString()}
+                                    </p>
+                                    <button
+                                        onClick={() => setSelectedProduct(item)}
+                                        className="btn-premium"
+                                        style={{
+                                            width: '100%', padding: '12px 20px', borderRadius: '12px',
+                                            fontSize: '11px', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase',
+                                            cursor: 'pointer',
+                                        }}
+                                    >
+                                        ▶ Get Access
+                                    </button>
+                                </div>
+                            </article>
+                        ))}
+                    </section>
+
+                    {/* ── Sidebar ── */}
+                    <aside style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+
+                        {/* Trust Signals */}
+                        <div style={{
+                            padding: '26px', borderRadius: '24px',
+                            background: 'linear-gradient(145deg, rgba(10,28,44,0.95) 0%, rgba(7,19,32,0.9) 100%)',
+                            border: '1px solid rgba(56,189,248,0.14)',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.45)',
+                            position: 'relative', overflow: 'hidden',
+                        }}>
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(20,184,166,0.4), rgba(59,130,246,0.35), transparent)' }} />
+
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '18px' }}>
+                                <div style={{ width: '30px', height: '30px', borderRadius: '8px', background: 'rgba(20,184,166,0.15)', border: '1px solid rgba(20,184,166,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '14px' }}>🔐</div>
+                                <p style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.tealLight, margin: 0 }}>Trust Signals</p>
+                            </div>
+
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                {TRUST_ITEMS.map((item, index) => (
+                                    <div key={index} className="trust-pill" style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '11px 14px', borderRadius: '12px' }}>
+                                        <span style={{ fontSize: '16px', flexShrink: 0 }}>{TRUST_ICONS[item.icon] || '✦'}</span>
+                                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#e0f2fe' }}>{item.label}</span>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    ))}
+
+                        {/* Telegram Fast Lane */}
+                        <div style={{
+                            padding: '28px', borderRadius: '24px',
+                            background: 'linear-gradient(145deg, rgba(12,30,50,0.96) 0%, rgba(7,20,36,0.94) 100%)',
+                            border: '1px solid rgba(20,184,166,0.22)',
+                            boxShadow: '0 20px 50px rgba(0,0,0,0.45), 0 0 40px rgba(20,184,166,0.06)',
+                            position: 'relative', overflow: 'hidden',
+                        }}>
+                            {/* Top teal glow */}
+                            <div style={{ position: 'absolute', top: '-50px', right: '-50px', width: '200px', height: '200px', borderRadius: '50%', background: 'rgba(20,184,166,0.12)', filter: 'blur(50px)', pointerEvents: 'none' }} />
+                            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '1px', background: 'linear-gradient(90deg, transparent, rgba(20,184,166,0.55), rgba(59,130,246,0.45), transparent)' }} />
+
+                            {/* Teal accent bar on left */}
+                            <div style={{ position: 'absolute', left: 0, top: '20%', bottom: '20%', width: '3px', background: 'linear-gradient(180deg, #14b8a6, #3b82f6)', borderRadius: '0 3px 3px 0' }} />
+
+                            <div style={{ paddingLeft: '12px' }}>
+                                <p style={{ fontSize: '10px', fontWeight: 800, letterSpacing: '0.24em', textTransform: 'uppercase', color: C.tealLight, margin: '0 0 10px' }}>Private Shortcut</p>
+                                <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: '24px', fontWeight: 700, color: '#f0f9ff', lineHeight: 1.2, margin: '0 0 12px' }}>
+                                    Telegram<br />Fast Lane
+                                </h3>
+                                <p style={{ fontSize: '13px', lineHeight: 1.75, color: C.muted, margin: '0 0 20px' }}>
+                                    When checkout is busy, use Telegram for quick manual support.
+                                </p>
+                                <a
+                                    href="https://t.me/Your_Kanika"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="btn-premium"
+                                    style={{
+                                        display: 'inline-flex', alignItems: 'center', gap: '8px',
+                                        padding: '12px 22px', borderRadius: '12px',
+                                        fontSize: '11px', fontWeight: 800, letterSpacing: '0.18em', textTransform: 'uppercase',
+                                        textDecoration: 'none', cursor: 'pointer',
+                                    }}
+                                >
+                                    <span>✈</span> Open Telegram
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* Quote card */}
+                        <div style={{
+                            padding: '24px', borderRadius: '20px',
+                            background: 'rgba(255,255,255,0.025)',
+                            border: '1px solid rgba(56,189,248,0.1)',
+                            textAlign: 'center',
+                        }}>
+                            <div style={{ fontSize: '22px', marginBottom: '12px' }}>💫</div>
+                            <p style={{ fontFamily: "'Playfair Display', serif", fontStyle: 'italic', fontSize: '15px', lineHeight: 1.75, color: C.muted, margin: '0 0 12px' }}>
+                                "Pleasure is always in the details. Yours are safe with me."
+                            </p>
+                            <div style={{ width: '50px', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(20,184,166,0.5), transparent)', margin: '0 auto 10px' }} />
+                            <p style={{ fontSize: '9px', fontWeight: 700, letterSpacing: '0.28em', textTransform: 'uppercase', color: 'rgba(20,184,166,0.5)', margin: 0 }}>— Kanika</p>
+                        </div>
+                    </aside>
                 </div>
             </main>
 
-            {/* Clean Footer */}
-            <footer className="mt-20 py-16 px-6 border-t border-slate-200 bg-white/40 backdrop-blur-md text-center space-y-8">
-                <h2 className="text-2xl font-display italic font-bold text-slate-300">Kanika Chauhan</h2>
-                <div className="flex items-center justify-center gap-6 text-[9px] font-black text-slate-500 uppercase tracking-widest">
-                    <button className="hover:text-teal-500 transition-colors">Privacy</button>
-                    <button className="hover:text-teal-500 transition-colors">Digital Content</button>
-                    <button className="hover:text-teal-500 transition-colors">Contact</button>
+            {/* ── Footer ── */}
+            <footer style={{
+                borderTop: '1px solid rgba(56,189,248,0.1)',
+                background: 'rgba(4,10,17,0.95)',
+                padding: '48px 32px',
+                textAlign: 'center',
+                position: 'relative', overflow: 'hidden',
+            }}>
+                <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '50%', height: '1px', background: 'linear-gradient(90deg, transparent, rgba(20,184,166,0.4), rgba(59,130,246,0.35), transparent)' }} />
+                <div style={{ position: 'absolute', left: 0, top: 0, width: '200px', height: '100px', background: 'radial-gradient(ellipse, rgba(20,184,166,0.06) 0%, transparent 70%)', filter: 'blur(20px)' }} />
+                <div style={{ position: 'absolute', right: 0, bottom: 0, width: '200px', height: '100px', background: 'radial-gradient(ellipse, rgba(59,130,246,0.06) 0%, transparent 70%)', filter: 'blur(20px)' }} />
+
+                <p style={{ fontFamily: "'Playfair Display', serif", fontSize: '28px', fontWeight: 700, margin: '0 0 14px', background: 'linear-gradient(135deg, #5eead4 0%, #38bdf8 50%, #818cf8 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                    Kanika Chauhan
+                </p>
+
+                <div style={{ display: 'flex', gap: '18px', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', flexWrap: 'wrap' }}>
+                    {['Privacy', 'Digital Content', 'Contact'].map((item, i, arr) => (
+                        <React.Fragment key={item}>
+                            <span style={{ fontSize: '10px', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: C.dim }}>{item}</span>
+                            {i < arr.length - 1 && <span style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(20,184,166,0.45)', display: 'inline-block' }} />}
+                        </React.Fragment>
+                    ))}
                 </div>
-                <p className="text-[7px] text-slate-400 font-bold uppercase tracking-[0.4em]">© 2026 Privilege Group • Secure Access</p>
+
+                <p style={{ fontSize: '11px', color: 'rgba(20,184,166,0.28)', letterSpacing: '0.06em', margin: 0 }}>
+                    © 2026 Privilege Group &nbsp;·&nbsp; Secure Access
+                </p>
             </footer>
 
-            {/* Modals */}
-            <PaymentModal
-                product={selectedProduct}
-                onClose={() => setSelectedProduct(null)}
-            />
+            <PaymentModal product={selectedProduct} onClose={() => setSelectedProduct(null)} />
             <RepublicDayPoster />
         </div>
     );
